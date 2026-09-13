@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
-import { PieChart, Lightbulb, CheckCircle2, RefreshCw, Sparkles, Flame, Trophy } from 'lucide-react';
+import React from 'react';
+import { PieChart, Lightbulb, Sparkles, Flame, Trophy } from 'lucide-react';
 import { CATEGORIES } from '../utils/storage';
-import SplitFlapText from './SplitFlapText';
 
 const MOTIVATIONAL_QUOTES = [
   // 1 ~ 10
@@ -150,21 +149,9 @@ export default function AnalyticsSection({ challengeData, year, month, stats }) 
       {/* 3 Motivational Quotes Daily Rolling Card */}
       <div className="glass-panel" style={{ padding: '22px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
         <div>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px', flexWrap: 'wrap', gap: '8px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <Lightbulb size={20} style={{ color: 'var(--accent-gold)' }} />
-              <h3 style={{ fontSize: '1.05rem', fontWeight: 800 }}>오늘의 1일 3포 동기부여</h3>
-            </div>
-
-            <button 
-              onClick={() => setShuffleOffset(prev => prev + 3)}
-              className="btn btn-secondary"
-              style={{ padding: '4px 10px', fontSize: '0.78rem', display: 'flex', alignItems: 'center', gap: '5px' }}
-              title="공항 안내판처럼 새로운 명언으로 플랩 롤링!"
-            >
-              <RefreshCw size={13} />
-              <span>명언 롤링 🎲</span>
-            </button>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px' }}>
+            <Lightbulb size={20} style={{ color: 'var(--accent-gold)' }} />
+            <h3 style={{ fontSize: '1.05rem', fontWeight: 800 }}>오늘의 1일 3포 동기부여</h3>
           </div>
 
           {/* 3 Quotes Stack */}
@@ -182,13 +169,13 @@ export default function AnalyticsSection({ challengeData, year, month, stats }) 
                     transition: 'all 0.2s'
                   }}
                 >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.76rem', color: q.color, fontWeight: 700, marginBottom: '6px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.76rem', color: q.color, fontWeight: 700, marginBottom: '4px' }}>
                     <IconComp size={13} />
                     <span>{q.label}</span>
                   </div>
-                  <div style={{ marginTop: '2px' }}>
-                    <SplitFlapText text={q.text} fontSize="0.85rem" />
-                  </div>
+                  <p style={{ fontSize: '0.88rem', fontWeight: 600, color: 'var(--text-main)', lineHeight: 1.5, margin: 0 }}>
+                    {q.text}
+                  </p>
                 </div>
               );
             })}
@@ -198,7 +185,7 @@ export default function AnalyticsSection({ challengeData, year, month, stats }) 
         {/* Bottom Tips */}
         <div style={{ marginTop: '16px', borderTop: '1px dashed var(--border-color)', paddingTop: '10px' }}>
           <div style={{ fontSize: '0.78rem', color: 'var(--text-sub)' }}>
-            💡 매일 동기부여 명언이 롤링 됩니다. (Apple 슬롯 3D 실린더 드럼 롤링 적용 🎰)
+            💡 매일 동기부여 명언이 롤링 됩니다.
           </div>
         </div>
 
