@@ -49,7 +49,7 @@ export default function Header({
               </span>
             </div>
             <h1 style={{ fontSize: '1.65rem', fontWeight: 800, marginTop: '4px', letterSpacing: '-0.5px' }}>
-              월간 <span style={{ color: 'var(--naver-green)' }}>1일 3포</span> 캘린더 & 러너
+              월간 <span style={{ color: 'var(--naver-green)' }}>1일 3포</span> 캘린더
             </h1>
           </div>
         </div>
