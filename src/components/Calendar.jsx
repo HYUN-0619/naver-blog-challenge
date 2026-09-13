@@ -116,7 +116,7 @@ export default function Calendar({ year, month, challengeData, onSelectDay, onCo
           let borderStyle = '1px solid var(--border-color)';
           let glowClass = '';
 
-          if (completedCount === 3) {
+          if (completedCount >= 3) {
             bgStyle = 'linear-gradient(145deg, rgba(3, 199, 90, 0.15) 0%, rgba(255, 184, 0, 0.12) 100%)';
             borderStyle = '2px solid rgba(3, 199, 90, 0.6)';
             glowClass = 'animate-pulse-glow';
@@ -181,18 +181,18 @@ export default function Calendar({ year, month, challengeData, onSelectDay, onCo
                 </span>
 
                 {/* Status Badge Tag */}
-                {completedCount === 3 ? (
+                {completedCount >= 3 ? (
                   <span className="badge badge-gold" style={{ fontSize: '0.7rem', padding: '2px 6px' }}>
-                    <Flame size={10} className="animate-flame" /> 3포 완주!
+                    <Flame size={10} className="animate-flame" /> {completedCount}포 완주!
                   </span>
                 ) : (
                   <span style={{ fontSize: '0.72rem', color: 'var(--text-sub)', fontWeight: 600 }}>
-                    {completedCount}/3포
+                    {completedCount}/{posts.length}포
                   </span>
                 )}
               </div>
 
-              {/* 1일 3포 Visual Icons Row */}
+              {/* Visual Icons Row */}
               <div style={{ display: 'flex', gap: '4px', margin: '8px 0' }}>
                 {posts.map((p, idx) => (
                   <div
@@ -202,7 +202,7 @@ export default function Calendar({ year, month, challengeData, onSelectDay, onCo
                       height: '24px',
                       borderRadius: '6px',
                       background: p.completed 
-                        ? (idx === 2 ? 'var(--gold-gradient)' : 'linear-gradient(135deg, var(--naver-green) 0%, var(--naver-green-dark) 100%)')
+                        ? (idx >= 2 ? 'var(--gold-gradient)' : 'linear-gradient(135deg, var(--naver-green) 0%, var(--naver-green-dark) 100%)')
                         : 'rgba(255,255,255,0.06)',
                       border: p.completed ? 'none' : '1px dashed rgba(255,255,255,0.15)',
                       display: 'flex',
@@ -214,7 +214,7 @@ export default function Calendar({ year, month, challengeData, onSelectDay, onCo
                     }}
                     title={p.title ? `포스트 ${idx+1}: ${p.title}` : `포스트 ${idx+1}`}
                   >
-                    {p.completed ? (idx === 2 ? '🔥' : '✓') : (idx + 1)}
+                    {p.completed ? (idx >= 2 ? '🔥' : '✓') : (idx + 1)}
                   </div>
                 ))}
               </div>

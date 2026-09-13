@@ -157,7 +157,7 @@ export function calculateStats(data, year, month) {
     if (dayData && dayData.posts) {
       const completedCount = dayData.posts.filter(p => p.completed).length;
       totalPostsCompleted += completedCount;
-      if (completedCount === 3) {
+      if (completedCount >= 3) {
         fullCompletedDays++;
       } else if (completedCount > 0) {
         partialCompletedDays++;
@@ -169,19 +169,19 @@ export function calculateStats(data, year, month) {
   let streak = 0;
   let maxCompletedDay = 0;
 
-  // 1. Find the highest day in the month that has 3/3 posts completed
+  // 1. Find the highest day in the month that has 3+ posts completed
   for (let d = totalDaysInMonth; d >= 1; d--) {
     const formattedDay = String(d).padStart(2, '0');
     const key = `${year}-${formattedMonth}-${formattedDay}`;
     const dayData = data[key];
     const completedCount = dayData?.posts ? dayData.posts.filter(p => p.completed).length : 0;
-    if (completedCount === 3) {
+    if (completedCount >= 3) {
       maxCompletedDay = d;
       break;
     }
   }
 
-  // 2. From maxCompletedDay, count consecutive 3/3 completed days backwards
+  // 2. From maxCompletedDay, count consecutive 3+ completed days backwards
   if (maxCompletedDay > 0) {
     for (let d = maxCompletedDay; d >= 1; d--) {
       const formattedDay = String(d).padStart(2, '0');
@@ -189,7 +189,7 @@ export function calculateStats(data, year, month) {
       const dayData = data[key];
       const completedCount = dayData?.posts ? dayData.posts.filter(p => p.completed).length : 0;
 
-      if (completedCount === 3) {
+      if (completedCount >= 3) {
         streak++;
       } else {
         break;

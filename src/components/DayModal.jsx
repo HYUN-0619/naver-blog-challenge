@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
-import { X, CheckCircle, Flame, Link as LinkIcon, Image as ImageIcon, Sparkles, Zap, Trash2, RotateCcw } from 'lucide-react';
+import { X, CheckCircle, Flame, Link as LinkIcon, Image as ImageIcon, Sparkles, Zap, Trash2, RotateCcw, Plus } from 'lucide-react';
 import { CATEGORIES } from '../utils/storage';
 
 export default function DayModal({ dateKey, dayData, onClose, onSave }) {
@@ -29,8 +29,8 @@ export default function DayModal({ dateKey, dayData, onClose, onSave }) {
     updated[idx].completed = !updated[idx].completed;
     setPosts(updated);
 
-    // If 3/3 reached, play confetti
-    if (updated.filter(p => p.completed).length === 3) {
+    // If all completed or at least 3 completed, play confetti
+    if (updated.filter(p => p.completed).length >= 3) {
       triggerFireworks();
     }
   };
@@ -46,7 +46,32 @@ export default function DayModal({ dateKey, dayData, onClose, onSave }) {
     setPosts(updated);
   };
 
-  // Quick 1-click complete all 3 posts
+  // Add a new post slot
+  const handleAddPost = () => {
+    const catIndex = posts.length % CATEGORIES.length;
+    const newPost = {
+      id: Date.now(),
+      completed: false,
+      title: '',
+      category: CATEGORIES[catIndex].label,
+      url: '',
+      image: '',
+      note: ''
+    };
+    setPosts([...posts, newPost]);
+  };
+
+  // Delete a specific post slot
+  const handleDeletePost = (idx) => {
+    if (posts.length <= 1) {
+      alert("최소 1개의 포스팅 항목은 유지되어야 합니다.");
+      return;
+    }
+    const updated = posts.filter((_, i) => i !== idx);
+    setPosts(updated);
+  };
+
+  // Quick 1-click complete all posts
   const handleCompleteAll = () => {
     const updated = posts.map((p, i) => ({
       ...p,
@@ -57,7 +82,7 @@ export default function DayModal({ dateKey, dayData, onClose, onSave }) {
     triggerFireworks();
   };
 
-  // Reset all 3 posts for this date instantly and sync to parent storage
+  // Reset all posts for this date instantly and sync to parent storage
   const handleResetDay = (e) => {
     if (e) {
       e.preventDefault();
@@ -102,8 +127,8 @@ export default function DayModal({ dateKey, dayData, onClose, onSave }) {
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <span className="badge badge-green">1일 3포 챌린지 일지</span>
-              {completedCount === 3 && (
-                <span className="badge badge-gold animate-flame">🔥 3포 완주 성공!</span>
+              {completedCount >= 3 && (
+                <span className="badge badge-gold animate-flame">🔥 {completedCount}포 완주 성공!</span>
               )}
             </div>
             <h2 style={{ fontSize: '1.4rem', fontWeight: 800, marginTop: '4px' }}>
@@ -120,7 +145,7 @@ export default function DayModal({ dateKey, dayData, onClose, onSave }) {
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(3,199,90,0.12)', border: '1px solid rgba(3,199,90,0.3)', padding: '12px 18px', borderRadius: 'var(--radius-md)', marginBottom: '20px', flexWrap: 'wrap', gap: '10px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <Zap size={20} style={{ color: 'var(--naver-green-light)' }} />
-            <span style={{ fontSize: '0.9rem', fontWeight: 600 }}>오늘의 3포 완주 상태: <strong>{completedCount} / 3 개 완료</strong></span>
+            <span style={{ fontSize: '0.9rem', fontWeight: 600 }}>오늘의 포스팅 상태: <strong>{completedCount} / {posts.length} 개 완료</strong></span>
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -128,14 +153,14 @@ export default function DayModal({ dateKey, dayData, onClose, onSave }) {
               <RotateCcw size={14} /> 기록 초기화
             </button>
             <button type="button" onClick={handleCompleteAll} className="btn btn-gold" style={{ padding: '6px 14px', fontSize: '0.85rem' }}>
-              <Sparkles size={14} /> 3포 한 번에 완료하기
+              <Sparkles size={14} /> 전체 한 번에 완료하기
             </button>
           </div>
         </div>
 
         <form onSubmit={handleSubmit}>
-          {/* 3 Posts Form Cards */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '24px' }}>
+          {/* Posts Form Cards */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '16px' }}>
             {posts.map((post, idx) => (
               <div 
                 key={post.id || idx}
@@ -158,7 +183,7 @@ export default function DayModal({ dateKey, dayData, onClose, onSave }) {
                         height: '28px',
                         borderRadius: '50%',
                         border: post.completed ? 'none' : '2px solid var(--text-muted)',
-                        background: post.completed ? (idx === 2 ? 'var(--gold-gradient)' : 'var(--naver-green)') : 'transparent',
+                        background: post.completed ? (idx >= 2 ? 'var(--gold-gradient)' : 'var(--naver-green)') : 'transparent',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
@@ -167,11 +192,16 @@ export default function DayModal({ dateKey, dayData, onClose, onSave }) {
                         fontWeight: 900
                       }}
                     >
-                      {post.completed && (idx === 2 ? '🔥' : '✓')}
+                      {post.completed && (idx >= 2 ? '🔥' : '✓')}
                     </button>
 
                     <span style={{ fontWeight: 800, fontSize: '1rem', color: post.completed ? 'var(--text-main)' : 'var(--text-sub)' }}>
-                      포스팅 {idx + 1} {idx === 0 ? '(아침/1포)' : idx === 1 ? '(점심/2포)' : '(저녁/3포 완주!)'}
+                      포스팅 {idx + 1} {
+                        idx === 0 ? '(아침/1포)' :
+                        idx === 1 ? '(점심/2포)' :
+                        idx === 2 ? '(저녁/3포 완주!)' :
+                        `(추가/${idx + 1}포)`
+                      }
                     </span>
 
                     {/* Golden Time Target Badge */}
@@ -190,25 +220,54 @@ export default function DayModal({ dateKey, dayData, onClose, onSave }) {
                         🌙 추천 21:00 (야간 피크)
                       </span>
                     )}
+                    {idx >= 3 && (
+                      <span className="badge badge-blue" style={{ fontSize: '0.72rem', padding: '2px 8px' }}>
+                        ✨ 추가 발행
+                      </span>
+                    )}
                   </div>
 
-                  {/* Category Selector */}
-                  <select
-                    value={post.category || CATEGORIES[0].label}
-                    onChange={(e) => handleFieldChange(idx, 'category', e.target.value)}
-                    style={{
-                      background: 'rgba(0,0,0,0.4)',
-                      color: 'var(--text-main)',
-                      border: '1px solid var(--border-color)',
-                      borderRadius: 'var(--radius-sm)',
-                      padding: '4px 8px',
-                      fontSize: '0.8rem'
-                    }}
-                  >
-                    {CATEGORIES.map(c => (
-                      <option key={c.label} value={c.label}>{c.label}</option>
-                    ))}
-                  </select>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    {/* Category Selector */}
+                    <select
+                      value={post.category || CATEGORIES[0].label}
+                      onChange={(e) => handleFieldChange(idx, 'category', e.target.value)}
+                      style={{
+                        background: 'rgba(0,0,0,0.4)',
+                        color: 'var(--text-main)',
+                        border: '1px solid var(--border-color)',
+                        borderRadius: 'var(--radius-sm)',
+                        padding: '4px 8px',
+                        fontSize: '0.8rem'
+                      }}
+                    >
+                      {CATEGORIES.map(c => (
+                        <option key={c.label} value={c.label}>{c.label}</option>
+                      ))}
+                    </select>
+
+                    {/* Delete Post Button */}
+                    <button
+                      type="button"
+                      onClick={() => handleDeletePost(idx)}
+                      style={{
+                        background: 'rgba(255, 45, 85, 0.15)',
+                        border: '1px solid rgba(255, 45, 85, 0.3)',
+                        color: '#FF2D55',
+                        borderRadius: 'var(--radius-sm)',
+                        padding: '4px 8px',
+                        fontSize: '0.78rem',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '4px'
+                      }}
+                      title="이 포스팅 삭제"
+                    >
+                      <Trash2 size={13} />
+                      <span>삭제</span>
+                    </button>
+                  </div>
                 </div>
 
                 {/* Inputs Grid */}
@@ -282,6 +341,30 @@ export default function DayModal({ dateKey, dayData, onClose, onSave }) {
               </div>
             ))}
           </div>
+
+          {/* Add Post Button */}
+          <button
+            type="button"
+            onClick={handleAddPost}
+            className="btn btn-secondary"
+            style={{
+              width: '100%',
+              padding: '12px',
+              border: '2px dashed var(--naver-green)',
+              background: 'rgba(3, 199, 90, 0.05)',
+              color: 'var(--naver-green-light)',
+              fontWeight: 700,
+              fontSize: '0.92rem',
+              marginBottom: '24px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '6px'
+            }}
+          >
+            <Plus size={18} />
+            <span>포스팅 추가하기 ({posts.length + 1}번째 포스팅 추가)</span>
+          </button>
 
           {/* Modal Footer Buttons */}
           <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
