@@ -149,22 +149,9 @@ export default function AnalyticsSection({ challengeData, year, month, stats }) 
       {/* 3 Motivational Quotes Daily Rolling Card */}
       <div className="glass-panel" style={{ padding: '22px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
         <div>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <Lightbulb size={20} style={{ color: 'var(--accent-gold)' }} />
-              <h3 style={{ fontSize: '1.05rem', fontWeight: 800 }}>오늘의 1일 3포 동기부여 (매일 자동 롤링 3선)</h3>
-            </div>
-
-            {/* Refresh 3 Quotes Button */}
-            <button
-              onClick={() => setShuffleOffset(prev => prev + 3)}
-              className="btn btn-secondary"
-              style={{ padding: '4px 10px', fontSize: '0.78rem', gap: '4px' }}
-              title="3가지 명언 새 조합으로 변경"
-            >
-              <RefreshCw size={12} />
-              <span>새 조합</span>
-            </button>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px' }}>
+            <Lightbulb size={20} style={{ color: 'var(--accent-gold)' }} />
+            <h3 style={{ fontSize: '1.05rem', fontWeight: 800 }}>오늘의 1일 3포 동기부여</h3>
           </div>
 
           {/* 3 Quotes Stack */}
@@ -197,9 +184,8 @@ export default function AnalyticsSection({ challengeData, year, month, stats }) 
 
         {/* Bottom Tips */}
         <div style={{ marginTop: '16px', borderTop: '1px dashed var(--border-color)', paddingTop: '10px' }}>
-          <div style={{ fontSize: '0.78rem', color: 'var(--text-sub)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <span>💡 매일 날짜에 맞춰 50가지 명언이 롤링됩니다.</span>
-            <span style={{ color: 'var(--naver-green)', fontWeight: 600 }}>50개 명언 수록 🏆</span>
+          <div style={{ fontSize: '0.78rem', color: 'var(--text-sub)' }}>
+            💡 매일 동기부여 명언이 롤링 됩니다.
           </div>
         </div>
 
