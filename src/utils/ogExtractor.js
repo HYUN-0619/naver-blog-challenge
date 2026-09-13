@@ -1,19 +1,40 @@
 /**
  * Auto-extract OpenGraph Metadata (Title & Thumbnail Image) from any URL (including Naver Blog)
  */
-export async function extractOgMetadata(url) {
-  if (!url || typeof url !== 'string' || !url.startsWith('http')) {
+export async function extractOgMetadata(rawUrl) {
+  if (!rawUrl || typeof rawUrl !== 'string' || !rawUrl.startsWith('http')) {
     return { title: null, image: null };
+  }
+
+  // Normalize Naver Blog URL to mobile version for optimal OpenGraph extraction
+  let targetUrl = rawUrl.trim();
+  if (targetUrl.includes('blog.naver.com')) {
+    // e.g. https://blog.naver.com/PostView.naver?blogId=xyz&logNo=123
+    const matchParams = targetUrl.match(/blogId=([^&]+).*?logNo=([^&]+)/);
+    if (matchParams) {
+      targetUrl = `https://m.blog.naver.com/${matchParams[1]}/${matchParams[2]}`;
+    } else {
+      // e.g. https://blog.naver.com/xyz/123
+      const matchPath = targetUrl.match(/blog\.naver\.com\/([^/]+)\/(\d+)/);
+      if (matchPath) {
+        targetUrl = `https://m.blog.naver.com/${matchPath[1]}/${matchPath[2]}`;
+      }
+    }
   }
 
   try {
     // 1. Primary: MicroLink OpenGraph Free API
-    const res = await fetch(`https://api.microlink.io?url=${encodeURIComponent(url)}`);
+    const res = await fetch(`https://api.microlink.io?url=${encodeURIComponent(targetUrl)}`);
     if (res.ok) {
       const json = await res.json();
       if (json.status === 'success' && json.data) {
-        const title = json.data.title || null;
-        const image = json.data.image?.url || null;
+        let title = json.data.title || null;
+        let image = json.data.image?.url || null;
+        
+        if (title) {
+          title = title.replace(/\s*:\s*네이버\s*블로그/g, '').trim();
+        }
+
         if (title || image) {
           return { title, image };
         }
@@ -25,7 +46,7 @@ export async function extractOgMetadata(url) {
 
   try {
     // 2. Fallback: AllOrigins CORS proxy + Regex HTML parsing
-    const proxyRes = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`);
+    const proxyRes = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`);
     if (proxyRes.ok) {
       const proxyJson = await proxyRes.json();
       const html = proxyJson.contents || '';
@@ -41,7 +62,7 @@ export async function extractOgMetadata(url) {
                            html.match(/<title>([^<]+)<\/title>/i);
       let title = ogTitleMatch ? ogTitleMatch[1] : null;
       if (title) {
-        title = title.replace(/\s*:\s*네이버 블로그/g, '').trim();
+        title = title.replace(/\s*:\s*네이버\s*블로그/g, '').trim();
       }
 
       return { title, image };

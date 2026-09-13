@@ -309,6 +309,7 @@ export default function DayModal({ dateKey, dayData, onClose, onSave }) {
                       <img 
                         src={post.image} 
                         alt="Thumbnail" 
+                        referrerPolicy="no-referrer"
                         style={{ width: '36px', height: '36px', borderRadius: '6px', objectFit: 'cover', border: '1px solid var(--naver-green)' }} 
                       />
                       <button 
