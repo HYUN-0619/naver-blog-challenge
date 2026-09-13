@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
-import { X, CheckCircle, Flame, Link as LinkIcon, Image as ImageIcon, Sparkles, Zap, Trash2, RotateCcw } from 'lucide-react';
+import { X, CheckCircle, Flame, Link as LinkIcon, Image as ImageIcon, Sparkles, Zap, Trash2, RotateCcw, Loader2, DownloadCloud } from 'lucide-react';
 import { CATEGORIES } from '../utils/storage';
+import { extractOgMetadata } from '../utils/ogExtractor';
 
 export default function DayModal({ dateKey, dayData, onClose, onSave }) {
+  const [loadingOg, setLoadingOg] = useState({});
   const [posts, setPosts] = useState(
     dayData?.posts ? JSON.parse(JSON.stringify(dayData.posts)) : [
       { id: 1, completed: false, title: '', category: CATEGORIES[0].label, url: '', image: '', note: '' },
@@ -21,6 +23,33 @@ export default function DayModal({ dateKey, dayData, onClose, onSave }) {
       spread: 70,
       origin: { y: 0.6 }
     });
+  };
+
+  // Auto-fetch OG Metadata (Title & Thumbnail) from Blog URL
+  const handleFetchOg = async (idx, targetUrl) => {
+    const urlToFetch = targetUrl || posts[idx]?.url;
+    if (!urlToFetch || !urlToFetch.startsWith('http')) return;
+
+    setLoadingOg(prev => ({ ...prev, [idx]: true }));
+    const meta = await extractOgMetadata(urlToFetch);
+    setLoadingOg(prev => ({ ...prev, [idx]: false }));
+
+    const updated = [...posts];
+    let changed = false;
+
+    if (meta.image) {
+      updated[idx].image = meta.image;
+      changed = true;
+    }
+    if (meta.title && !updated[idx].title) {
+      updated[idx].title = meta.title;
+      changed = true;
+    }
+    if (changed || urlToFetch) {
+      updated[idx].completed = true;
+    }
+
+    setPosts(updated);
   };
 
   // Toggle post completion
@@ -44,6 +73,11 @@ export default function DayModal({ dateKey, dayData, onClose, onSave }) {
       updated[idx].completed = true;
     }
     setPosts(updated);
+
+    // Auto-fetch OG metadata if user pastes a valid http URL
+    if (field === 'url' && value.startsWith('http') && value.length > 15) {
+      handleFetchOg(idx, value);
+    }
   };
 
   // Quick 1-click complete all 3 posts
@@ -230,6 +264,17 @@ export default function DayModal({ dateKey, dayData, onClose, onSave }) {
                       onChange={(e) => handleFieldChange(idx, 'url', e.target.value)}
                       className="form-input"
                     />
+                    <button
+                      type="button"
+                      onClick={() => handleFetchOg(idx, post.url)}
+                      disabled={loadingOg[idx] || !post.url}
+                      className="btn btn-blue"
+                      style={{ padding: '8px 12px', fontSize: '0.8rem', whiteSpace: 'nowrap', display: 'flex', alignItems: 'center', gap: '4px' }}
+                      title="URL에서 썸네일 & 제목 자동 가져오기"
+                    >
+                      {loadingOg[idx] ? <Loader2 size={14} className="animate-spin" /> : <Sparkles size={14} />}
+                      <span>{loadingOg[idx] ? '가져오는 중...' : '자동 썸네일'}</span>
+                    </button>
                     {post.url && (
                       <a href={post.url} target="_blank" rel="noreferrer" className="btn btn-secondary" style={{ padding: '8px 12px' }} title="링크 열기">
                         <LinkIcon size={14} />
