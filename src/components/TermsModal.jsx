@@ -54,7 +54,7 @@ export default function TermsModal({ onClose }) {
         </div>
 
         <p style={{ color: 'var(--text-sub)', fontSize: '0.85rem', marginBottom: '20px', borderBottom: '1px solid var(--border-color)', paddingBottom: '12px' }}>
-          po3.site • 네이버 블로그 1일 3포 챌린지 캘린더
+          네이버 블로그 1일 3포 챌린지 캘린더
         </p>
 
         <div style={{ color: 'var(--text-main)', fontSize: '0.9rem', lineHeight: '1.7', display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -64,7 +64,7 @@ export default function TermsModal({ onClose }) {
               1. 서비스 목적 및 가치
             </h3>
             <p style={{ color: 'var(--text-sub)' }}>
-              'po3.site'는 네이버 블로그를 운영하는 창작자들이 매일 3개의 포스팅 목표를 달성하도록 시각적 달리기 동기부여 트랙, 월간 캘린더, 스트릭 계측기 및 명예의 전당 갤러리를 제공하는 웹 서비스입니다.
+              본 서비스는 네이버 블로그를 운영하는 창작자들이 매일 3개의 포스팅 목표를 달성하도록 시각적 달리기 동기부여 트랙, 월간 캘린더, 스트릭 계측기 및 명예의 전당 갤러리를 제공하는 웹 서비스입니다.
             </p>
           </section>
 

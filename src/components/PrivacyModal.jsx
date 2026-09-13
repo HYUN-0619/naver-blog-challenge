@@ -54,7 +54,7 @@ export default function PrivacyModal({ onClose }) {
         </div>
 
         <p style={{ color: 'var(--text-sub)', fontSize: '0.85rem', marginBottom: '20px', borderBottom: '1px solid var(--border-color)', paddingBottom: '12px' }}>
-          최종 수정일: 2026년 9월 13일 • po3.site
+          최종 수정일: 2026년 9월 13일
         </p>
 
         <div style={{ color: 'var(--text-main)', fontSize: '0.9rem', lineHeight: '1.7', display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -64,7 +64,7 @@ export default function PrivacyModal({ onClose }) {
               1. 데이터 수집 및 보관 방침 (서버 전송 0%)
             </h3>
             <p style={{ color: 'var(--text-sub)' }}>
-              '네이버 블로그 1일 3포 챌린지 캘린더' (po3.site) 서비스는 이용자의 어떠한 개인정보(이름, 이메일, 전화번호 등)도 회원가입 또는 서버로 수집/저장하지 않습니다.
+              '네이버 블로그 1일 3포 챌린지 캘린더' 서비스는 이용자의 어떠한 개인정보(이름, 이메일, 전화번호 등)도 회원가입 또는 서버로 수집/저장하지 않습니다.
               사용자가 작성한 일별 블로그 포스팅 데이터, 썸네일, 링크 및 달성 현황은 **100% 사용자의 개인 브라우저 내부(localStorage)**에만 보관되며 외부 서버로 전송되지 않습니다.
             </p>
           </section>

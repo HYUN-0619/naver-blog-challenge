@@ -28,7 +28,7 @@ export default function Footer({ onOpenPrivacy, onOpenTerms, onOpenWelcome, curr
           <img src="/mascot.png" alt="Mascot" style={{ width: '28px', height: '28px', borderRadius: '8px', objectFit: 'cover' }} />
           <div>
             <span style={{ fontWeight: 800, color: 'var(--text-main)', fontSize: '0.98rem' }}>
-              po3.site <span style={{ color: 'var(--naver-green)' }}>1일 3포</span> 챌린지 캘린더
+              네이버 블로그 <span style={{ color: 'var(--naver-green)' }}>1일 3포</span> 챌린지 캘린더
             </span>
             <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '2px' }}>
               네이버 블로그 1일 3포스팅 매일 완주 및 C-Rank 상승을 위한 전용 러너 트래커
@@ -112,7 +112,7 @@ export default function Footer({ onOpenPrivacy, onOpenTerms, onOpenWelcome, curr
       {/* Copyright */}
       <div style={{ textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.8rem', borderTop: '1px dashed var(--border-color)', paddingTop: '16px' }}>
         <p>
-          &copy; {currentYear} po3.site • All rights reserved. 본 서비스는 네이버 공식 서비스가 아닌 독립적인 블로그 챌린지 웹 앱입니다.
+          &copy; {currentYear} 네이버 블로그 1일 3포 챌린지 캘린더 • All rights reserved. 본 서비스는 네이버 공식 서비스가 아닌 독립적인 블로그 챌린지 웹 앱입니다.
         </p>
       </div>
 

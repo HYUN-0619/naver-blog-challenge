@@ -339,7 +339,7 @@ export default function WelcomeGuideModal({ onClose }) {
                 Q. 내 네이버 블로그 사이드바에 이 주소를 위젯으로 달 수 있나요?
               </h4>
               <p style={{ fontSize: '0.85rem', color: 'var(--text-sub)', lineHeight: '1.5', margin: 0 }}>
-                네 가능합니다! 블로그 관리 ➔ 레이아웃·위젯 설정 ➔ [위젯직접등록]에서 <code>https://po3.site</code> 링크와 공식 위젯 배너 <code>https://po3.site/widget-banner.jpg</code>를 등록하시면 됩니다.
+                네 가능합니다! 블로그 관리 ➔ 레이아웃·위젯 설정 ➔ [위젯직접등록]에서 본 사이트 링크 및 공식 위젯 배너를 등록하시면 블로그 사이드바에 챌린지 바로가기가 생성됩니다.
               </p>
             </div>
 
