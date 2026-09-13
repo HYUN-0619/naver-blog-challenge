@@ -1,97 +1,105 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-// Web Audio API tick sound for counter numbers
-function playCounterTick() {
+// Web Audio API drum tick for counter numbers
+function playDrumCounterTick() {
   try {
     const AudioCtx = window.AudioContext || window.webkitAudioContext;
     if (!AudioCtx) return;
     const ctx = new AudioCtx();
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
-    
+
     osc.type = 'sine';
     osc.frequency.setValueAtTime(1800, ctx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(300, ctx.currentTime + 0.01);
-    
+    osc.frequency.exponentialRampToValueAtTime(300, ctx.currentTime + 0.012);
+
     gain.gain.setValueAtTime(0.05, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.01);
-    
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.012);
+
     osc.connect(gain);
     gain.connect(ctx.destination);
-    
+
     osc.start();
-    osc.stop(ctx.currentTime + 0.01);
+    osc.stop(ctx.currentTime + 0.012);
   } catch (e) {
-    // Autoplay restrictions ignored if no prior click
+    // Autoplay restrictions ignored if no prior user interaction
   }
 }
 
-function CounterDigit({ targetDigit, index, isFlippingParent, color }) {
+function DrumDigit({ targetDigit, index, isSpinningParent, color }) {
   const [displayedDigit, setDisplayedDigit] = useState(targetDigit);
-  const [isFlippingDigit, setIsFlippingDigit] = useState(false);
+  const [isSpinning, setIsSpinning] = useState(false);
   const prevDigitRef = useRef(targetDigit);
 
   useEffect(() => {
-    if (prevDigitRef.current !== targetDigit || isFlippingParent) {
-      const delay = index * 50;
+    if (targetDigit !== prevDigitRef.current || isSpinningParent) {
+      const delay = index * 40;
       const timer = setTimeout(() => {
-        setIsFlippingDigit(true);
-        let start = parseInt(prevDigitRef.current, 10) || 0;
-        const end = parseInt(targetDigit, 10) || 0;
-        
-        let current = start;
-        const steps = 3;
-        let stepCount = 0;
+        setIsSpinning(true);
+        playDrumCounterTick();
 
-        const interval = setInterval(() => {
-          stepCount++;
-          playCounterTick();
-          current = (current + 1) % 10;
-          setDisplayedDigit(String(current));
+        const spinTimer = setTimeout(() => {
+          setDisplayedDigit(targetDigit);
+          setIsSpinning(false);
+          prevDigitRef.current = targetDigit;
+        }, 220);
 
-          if (stepCount >= steps) {
-            clearInterval(interval);
-            setDisplayedDigit(targetDigit);
-            setIsFlippingDigit(false);
-            prevDigitRef.current = targetDigit;
-          }
-        }, 50);
-
-        return () => clearInterval(interval);
+        return () => clearTimeout(spinTimer);
       }, delay);
 
       return () => clearTimeout(timer);
     }
-  }, [targetDigit, isFlippingParent, index]);
+  }, [targetDigit, isSpinningParent, index]);
 
   return (
     <div
       style={{
         position: 'relative',
         width: '28px',
-        height: '36px',
-        background: 'linear-gradient(180deg, #1C2330 0%, #0F141D 49%, #080B10 50%, #171E29 100%)',
-        border: '1px solid rgba(255, 255, 255, 0.22)',
+        height: '38px',
+        background: 'linear-gradient(180deg, #18202C 0%, #0D121B 50%, #151C27 100%)',
+        border: '1px solid rgba(255, 255, 255, 0.2)',
         borderRadius: '6px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        color: color,
-        fontSize: '1.35rem',
-        fontWeight: 900,
-        fontFamily: "'Outfit', sans-serif",
-        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
-        perspective: '400px',
-        userSelect: 'none',
-        overflow: 'hidden'
+        boxShadow: 'inset 0 3px 8px rgba(0,0,0,0.7), 0 4px 10px rgba(0,0,0,0.5)',
+        perspective: '600px',
+        overflow: 'hidden',
+        userSelect: 'none'
       }}
     >
-      <span style={{ textShadow: `0 0 10px ${color}66` }}>{displayedDigit}</span>
+      {/* 3D Revolving Cylinder Digit Drum */}
+      <div
+        style={{
+          transformStyle: 'preserve-3d',
+          transform: isSpinning ? 'rotateX(-180deg) scale(0.9)' : 'rotateX(0deg) scale(1)',
+          filter: isSpinning ? 'blur(2px)' : 'blur(0px)',
+          transition: isSpinning
+            ? 'transform 0.22s cubic-bezier(0.15, 0.85, 0.35, 1.2), filter 0.15s ease'
+            : 'transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.15s ease',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}
+      >
+        <span
+          style={{
+            color: color,
+            fontSize: '1.35rem',
+            fontWeight: 900,
+            fontFamily: "'Outfit', sans-serif",
+            textShadow: `0 0 10px ${color}66`
+          }}
+        >
+          {displayedDigit}
+        </span>
+      </div>
 
-      {/* Top Glass Highlight */}
-      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '50%', background: 'linear-gradient(180deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 100%)', pointerEvents: 'none' }} />
+      {/* Top Glass Reflection */}
+      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '40%', background: 'linear-gradient(180deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0) 100%)', pointerEvents: 'none' }} />
 
-      {/* Solari Split Line */}
+      {/* Center Drum Highlight Divider */}
       <div
         style={{
           position: 'absolute',
@@ -99,55 +107,27 @@ function CounterDigit({ targetDigit, index, isFlippingParent, color }) {
           left: 0,
           right: 0,
           height: '1px',
-          background: '#000000',
-          boxShadow: '0 1px 0 rgba(255, 255, 255, 0.12)',
+          background: 'rgba(0, 0, 0, 0.8)',
+          borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+          transform: 'translateY(-50%)',
           pointerEvents: 'none'
         }}
       />
-
-      {/* Hinge Side Clips */}
-      <div style={{ position: 'absolute', top: 'calc(50% - 2px)', left: 0, width: '2px', height: '4px', background: '#475569' }} />
-      <div style={{ position: 'absolute', top: 'calc(50% - 2px)', right: 0, width: '2px', height: '4px', background: '#475569' }} />
-
-      {/* 3D Flap Motion Overlay */}
-      {isFlippingDigit && (
-        <div
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            height: '50%',
-            background: 'linear-gradient(180deg, #2A3447 0%, #171E29 100%)',
-            borderBottom: '1px solid #000000',
-            transformOrigin: 'bottom center',
-            animation: 'digitFlap 0.06s ease-in forwards',
-            zIndex: 10
-          }}
-        />
-      )}
-
-      <style>{`
-        @keyframes digitFlap {
-          0% { transform: rotateX(0deg); }
-          100% { transform: rotateX(-90deg); }
-        }
-      `}</style>
     </div>
   );
 }
 
 export default function SplitFlapCounter({ value, label = '', color = 'var(--naver-green)' }) {
   const [displayValue, setDisplayValue] = useState(value);
-  const [isFlipping, setIsFlipping] = useState(false);
+  const [isSpinning, setIsSpinning] = useState(false);
 
   useEffect(() => {
     if (value !== displayValue) {
-      setIsFlipping(true);
+      setIsSpinning(true);
       setDisplayValue(value);
       const timer = setTimeout(() => {
-        setIsFlipping(false);
-      }, 400);
+        setIsSpinning(false);
+      }, 350);
       return () => clearTimeout(timer);
     }
   }, [value, displayValue]);
@@ -158,11 +138,11 @@ export default function SplitFlapCounter({ value, label = '', color = 'var(--nav
     <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
       <div style={{ display: 'flex', gap: '3px' }}>
         {digits.map((digit, idx) => (
-          <CounterDigit
+          <DrumDigit
             key={idx}
             targetDigit={digit}
             index={idx}
-            isFlippingParent={isFlipping}
+            isSpinningParent={isSpinning}
             color={color}
           />
         ))}

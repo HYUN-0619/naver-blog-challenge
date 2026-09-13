@@ -198,7 +198,7 @@ export default function AnalyticsSection({ challengeData, year, month, stats }) 
         {/* Bottom Tips */}
         <div style={{ marginTop: '16px', borderTop: '1px dashed var(--border-color)', paddingTop: '10px' }}>
           <div style={{ fontSize: '0.78rem', color: 'var(--text-sub)' }}>
-            💡 매일 동기부여 명언이 롤링 됩니다. (공항 안내판 솔라리 플랩 효과 적용 ✈️)
+            💡 매일 동기부여 명언이 롤링 됩니다. (Apple 슬롯 3D 실린더 드럼 롤링 적용 🎰)
           </div>
         </div>
 
