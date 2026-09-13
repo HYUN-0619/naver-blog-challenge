@@ -11,6 +11,7 @@ import TrophyGallery from './components/TrophyGallery';
 import BlogGuideSection from './components/BlogGuideSection';
 import PrivacyModal from './components/PrivacyModal';
 import TermsModal from './components/TermsModal';
+import WelcomeGuideModal from './components/WelcomeGuideModal';
 import Footer from './components/Footer';
 import { loadChallengeData, saveChallengeData, calculateStats, generateSampleData, CATEGORIES } from './utils/storage';
 
@@ -30,6 +31,11 @@ export default function App() {
   const [showProofModal, setShowProofModal] = useState(false);
   const [showPrivacyModal, setShowPrivacyModal] = useState(false);
   const [showTermsModal, setShowTermsModal] = useState(false);
+  const [showWelcomeModal, setShowWelcomeModal] = useState(() => {
+    const todayStr = new Date().toISOString().split('T')[0];
+    const hideDate = localStorage.getItem('po3_hide_welcome_date');
+    return hideDate !== todayStr;
+  });
 
   // Sync theme attribute to HTML
   useEffect(() => {
@@ -288,11 +294,17 @@ export default function App() {
         <TermsModal onClose={() => setShowTermsModal(false)} />
       )}
 
+      {/* Welcome & User Guide Onboarding Modal */}
+      {showWelcomeModal && (
+        <WelcomeGuideModal onClose={() => setShowWelcomeModal(false)} />
+      )}
+
       {/* Footer Branding & Legal Links */}
       <Footer
         currentYear={currentYear}
         onOpenPrivacy={() => setShowPrivacyModal(true)}
         onOpenTerms={() => setShowTermsModal(true)}
+        onOpenWelcome={() => setShowWelcomeModal(true)}
       />
 
     </div>

@@ -1,8 +1,8 @@
 import React from 'react';
-import { ShieldCheck, Info, Mail, Heart, Sparkles } from 'lucide-react';
+import { ShieldCheck, Info, Mail, Heart, Sparkles, HelpCircle } from 'lucide-react';
 import AdContainer from './AdContainer';
 
-export default function Footer({ onOpenPrivacy, onOpenTerms, currentYear }) {
+export default function Footer({ onOpenPrivacy, onOpenTerms, onOpenWelcome, currentYear }) {
   return (
     <footer style={{
       marginTop: '60px',
@@ -38,6 +38,24 @@ export default function Footer({ onOpenPrivacy, onOpenTerms, currentYear }) {
 
         {/* Right Policy Links */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
+          <button
+            onClick={onOpenWelcome}
+            style={{
+              background: 'none',
+              border: 'none',
+              color: 'var(--text-main)',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              fontWeight: 600,
+              fontSize: '0.85rem'
+            }}
+          >
+            <HelpCircle size={16} style={{ color: 'var(--naver-green-light)' }} />
+            이용 안내 가이드 🚀
+          </button>
+
           <button
             onClick={onOpenPrivacy}
             style={{
