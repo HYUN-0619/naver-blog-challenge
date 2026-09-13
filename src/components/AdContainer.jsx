@@ -34,7 +34,7 @@ export default function AdContainer({ slot = 'auto', format = 'auto', style = {}
       {/* AdSense ins Tag Placeholder */}
       <ins className="adsbygoogle"
            style={{ display: 'block', width: '100%', minHeight: '60px' }}
-           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+           data-ad-client="ca-pub-2413601181805662"
            data-ad-slot={slot}
            data-ad-format={format}
            data-full-width-responsive="true"></ins>
