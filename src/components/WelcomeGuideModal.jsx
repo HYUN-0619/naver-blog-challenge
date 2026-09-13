@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Sparkles, ShieldCheck, Rocket, X, Flame, AlertCircle, ChevronRight, ChevronLeft, Calendar, Trophy, Image as ImageIcon, Clock, CheckCircle2 } from 'lucide-react';
+import { Sparkles, ShieldCheck, Rocket, X, Flame, AlertCircle, ChevronRight, ChevronLeft, Calendar, Trophy, Image as ImageIcon, HelpCircle } from 'lucide-react';
 
 export default function WelcomeGuideModal({ onClose }) {
   const [page, setPage] = useState(1);
@@ -20,7 +20,7 @@ export default function WelcomeGuideModal({ onClose }) {
         onClick={(e) => e.stopPropagation()} 
         style={{
           width: '100%',
-          maxWidth: '660px',
+          maxWidth: '680px',
           maxHeight: '90vh',
           overflowY: 'auto',
           padding: '28px',
@@ -73,24 +73,22 @@ export default function WelcomeGuideModal({ onClose }) {
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <span className="badge badge-green">환영합니다! 👋</span>
-                <span className="badge badge-gold">페이지 {page} / 2</span>
+                <span className="badge badge-gold">페이지 {page} / 3</span>
               </div>
-              <h2 style={{ fontSize: '1.35rem', fontWeight: 800, marginTop: '4px' }}>
-                {page === 1 ? (
-                  <>네이버 블로그 <span style={{ color: 'var(--naver-green)' }}>1일 3포 챌린지</span> 안심 가이드</>
-                ) : (
-                  <>1일 3포 대시보드 <span style={{ color: 'var(--gold-primary)' }}>상세 사용방법 가이드</span></>
-                )}
+              <h2 style={{ fontSize: '1.3rem', fontWeight: 800, marginTop: '4px' }}>
+                {page === 1 && <>네이버 블로그 <span style={{ color: 'var(--naver-green)' }}>1일 3포 챌린지</span> 안심 가이드</>}
+                {page === 2 && <>1일 3포 대시보드 <span style={{ color: 'var(--gold-primary)' }}>상세 사용방법 가이드</span></>}
+                {page === 3 && <>자주 묻는 질문 <span style={{ color: '#00D0FF' }}>(FAQ & 도움말)</span></>}
               </h2>
             </div>
           </div>
 
-          {/* Page Switcher Tabs */}
-          <div style={{ display: 'flex', gap: '6px', background: 'rgba(0,0,0,0.3)', padding: '4px', borderRadius: '12px', border: '1px solid var(--border-color)' }}>
+          {/* 3 Page Switcher Tabs */}
+          <div style={{ display: 'flex', gap: '4px', background: 'rgba(0,0,0,0.3)', padding: '4px', borderRadius: '12px', border: '1px solid var(--border-color)' }}>
             <button
               onClick={() => setPage(1)}
               style={{
-                padding: '5px 12px',
+                padding: '5px 10px',
                 fontSize: '0.78rem',
                 borderRadius: '8px',
                 border: 'none',
@@ -105,7 +103,7 @@ export default function WelcomeGuideModal({ onClose }) {
             <button
               onClick={() => setPage(2)}
               style={{
-                padding: '5px 12px',
+                padding: '5px 10px',
                 fontSize: '0.78rem',
                 borderRadius: '8px',
                 border: 'none',
@@ -116,6 +114,21 @@ export default function WelcomeGuideModal({ onClose }) {
               }}
             >
               2. 사용방법
+            </button>
+            <button
+              onClick={() => setPage(3)}
+              style={{
+                padding: '5px 10px',
+                fontSize: '0.78rem',
+                borderRadius: '8px',
+                border: 'none',
+                cursor: 'pointer',
+                background: page === 3 ? '#00D0FF' : 'transparent',
+                color: page === 3 ? '#000' : 'var(--text-sub)',
+                fontWeight: 700
+              }}
+            >
+              3. FAQ
             </button>
           </div>
         </div>
@@ -276,6 +289,63 @@ export default function WelcomeGuideModal({ onClose }) {
           </div>
         )}
 
+        {/* PAGE 3: Frequently Asked Questions (FAQ) */}
+        {page === 3 && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '22px' }}>
+            
+            {/* FAQ 1 */}
+            <div style={{ background: 'rgba(0,208,255,0.06)', border: '1px solid rgba(0,208,255,0.2)', borderRadius: 'var(--radius-md)', padding: '14px 16px' }}>
+              <h4 style={{ fontSize: '0.92rem', fontWeight: 800, color: '#00D0FF', marginBottom: '4px' }}>
+                Q. 내 정보나 기록이 다른 사람에게 보이나요?
+              </h4>
+              <p style={{ fontSize: '0.85rem', color: 'var(--text-sub)', lineHeight: '1.5', margin: 0 }}>
+                <strong>절대 노출되지 않습니다.</strong> 회원가입이나 외부 서버 전송이 없으며, 오직 이용자 본인의 개인 브라우저에만 안전하게 보관됩니다.
+              </p>
+            </div>
+
+            {/* FAQ 2 */}
+            <div style={{ background: 'rgba(3,199,90,0.06)', border: '1px solid rgba(3,199,90,0.2)', borderRadius: 'var(--radius-md)', padding: '14px 16px' }}>
+              <h4 style={{ fontSize: '0.92rem', fontWeight: 800, color: 'var(--naver-green-light)', marginBottom: '4px' }}>
+                Q. 입력을 실수했거나 해당 날짜만 지우고 싶어요.
+              </h4>
+              <p style={{ fontSize: '0.85rem', color: 'var(--text-sub)', lineHeight: '1.5', margin: 0 }}>
+                캘린더에서 해당 날짜를 다시 클릭하면 글 제목이나 체크박스를 수정할 수 있으며, 모달 하단 <strong>[이 날의 기록 초기화]</strong>를 누르면 선택한 날만 깨끗이 삭제됩니다.
+              </p>
+            </div>
+
+            {/* FAQ 3 */}
+            <div style={{ background: 'rgba(255,184,0,0.06)', border: '1px solid rgba(255,184,0,0.2)', borderRadius: 'var(--radius-md)', padding: '14px 16px' }}>
+              <h4 style={{ fontSize: '0.92rem', fontWeight: 800, color: 'var(--gold-primary)', marginBottom: '4px' }}>
+                Q. 다른 기기나 브라우저에서도 기록이 연동되나요?
+              </h4>
+              <p style={{ fontSize: '0.85rem', color: 'var(--text-sub)', lineHeight: '1.5', margin: 0 }}>
+                브라우저 기반 저장 방식이므로 다른 기기에서는 보이지 않으며, 브라우저 캐시 삭제 시 초기화될 수 있습니다. 매월 완주 후 <strong>[블로그 인증샷 생성]</strong>으로 이미지를 다운받아 백업해 두세요!
+              </p>
+            </div>
+
+            {/* FAQ 4 */}
+            <div style={{ background: 'rgba(255,87,34,0.06)', border: '1px solid rgba(255,87,34,0.2)', borderRadius: 'var(--radius-md)', padding: '14px 16px' }}>
+              <h4 style={{ fontSize: '0.92rem', fontWeight: 800, color: '#FF7043', marginBottom: '4px' }}>
+                Q. 1년 12개월 전체 완주 기록은 어디서 확인하나요?
+              </h4>
+              <p style={{ fontSize: '0.85rem', color: 'var(--text-sub)', lineHeight: '1.5', margin: 0 }}>
+                상단 메인 메뉴의 <strong>[명예의 전당 갤러리]</strong> 탭을 클릭하면 1월부터 12월까지의 월별 완주 성과 트로피와 뱃지 현황을 한눈에 확인하실 수 있습니다.
+              </p>
+            </div>
+
+            {/* FAQ 5 */}
+            <div style={{ background: 'rgba(168,85,247,0.06)', border: '1px solid rgba(168,85,247,0.2)', borderRadius: 'var(--radius-md)', padding: '14px 16px' }}>
+              <h4 style={{ fontSize: '0.92rem', fontWeight: 800, color: '#A855F7', marginBottom: '4px' }}>
+                Q. 내 네이버 블로그 사이드바에 이 주소를 위젯으로 달 수 있나요?
+              </h4>
+              <p style={{ fontSize: '0.85rem', color: 'var(--text-sub)', lineHeight: '1.5', margin: 0 }}>
+                네 가능합니다! 블로그 관리 ➔ 레이아웃·위젯 설정 ➔ [위젯직접등록]에서 <code>https://po3.site</code> 링크와 공식 위젯 배너 <code>https://po3.site/widget-banner.jpg</code>를 등록하시면 됩니다.
+              </p>
+            </div>
+
+          </div>
+        )}
+
         {/* Footer Navigation Controls */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: '1px solid var(--border-color)', paddingTop: '16px', flexWrap: 'wrap', gap: '12px' }}>
           <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontSize: '0.86rem', color: 'var(--text-sub)' }}>
@@ -289,7 +359,7 @@ export default function WelcomeGuideModal({ onClose }) {
           </label>
 
           <div style={{ display: 'flex', gap: '10px' }}>
-            {page === 1 ? (
+            {page === 1 && (
               <button
                 onClick={() => setPage(2)}
                 className="btn btn-gold"
@@ -298,15 +368,38 @@ export default function WelcomeGuideModal({ onClose }) {
                 <span>상세 사용방법 보기</span>
                 <ChevronRight size={18} />
               </button>
-            ) : (
+            )}
+
+            {page === 2 && (
               <>
                 <button
                   onClick={() => setPage(1)}
                   className="btn btn-secondary"
-                  style={{ padding: '10px 16px', fontSize: '0.9rem' }}
+                  style={{ padding: '10px 14px', fontSize: '0.88rem' }}
                 >
-                  <ChevronLeft size={18} />
-                  <span>이전 페이지</span>
+                  <ChevronLeft size={16} />
+                  <span>이전</span>
+                </button>
+                <button
+                  onClick={() => setPage(3)}
+                  className="btn btn-blue"
+                  style={{ padding: '10px 18px', fontSize: '0.92rem' }}
+                >
+                  <span>FAQ 질문보기</span>
+                  <ChevronRight size={18} />
+                </button>
+              </>
+            )}
+
+            {page === 3 && (
+              <>
+                <button
+                  onClick={() => setPage(2)}
+                  className="btn btn-secondary"
+                  style={{ padding: '10px 14px', fontSize: '0.88rem' }}
+                >
+                  <ChevronLeft size={16} />
+                  <span>이전</span>
                 </button>
                 <button
                   onClick={handleConfirm}
