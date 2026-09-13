@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { PieChart, Lightbulb, CheckCircle2, RefreshCw, Sparkles, Flame, Trophy } from 'lucide-react';
 import { CATEGORIES } from '../utils/storage';
+import SplitFlapText from './SplitFlapText';
 
 const MOTIVATIONAL_QUOTES = [
   // 1 ~ 10
@@ -169,13 +170,13 @@ export default function AnalyticsSection({ challengeData, year, month, stats }) 
                     transition: 'all 0.2s'
                   }}
                 >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.76rem', color: q.color, fontWeight: 700, marginBottom: '4px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.76rem', color: q.color, fontWeight: 700, marginBottom: '6px' }}>
                     <IconComp size={13} />
                     <span>{q.label}</span>
                   </div>
-                  <p style={{ fontSize: '0.88rem', fontWeight: 600, color: 'var(--text-main)', lineHeight: '1.5', margin: 0 }}>
-                    "{q.text}"
-                  </p>
+                  <div style={{ marginTop: '2px' }}>
+                    <SplitFlapText text={q.text} fontSize="0.85rem" />
+                  </div>
                 </div>
               );
             })}

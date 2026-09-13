@@ -1,5 +1,6 @@
 import React from 'react';
 import { Trophy, Flag, Flame, Sparkles, CheckCircle2, Award, Zap, ChevronRight } from 'lucide-react';
+import SplitFlapCounter from './SplitFlapCounter';
 
 export default function RunnerTrack({ stats, month, year }) {
   const percent = Math.min(100, Math.max(0, stats.progressPercent));
@@ -34,16 +35,18 @@ export default function RunnerTrack({ stats, month, year }) {
         {/* Realtime Stat Counters */}
         <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
           <div style={{ background: 'rgba(0,0,0,0.25)', padding: '10px 16px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)', textAlign: 'center' }}>
-            <div style={{ fontSize: '0.75rem', color: 'var(--text-sub)', fontWeight: 600 }}>누적 작성 수</div>
-            <div style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--naver-green-light)' }}>
-              {stats.totalPostsCompleted} <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>/ {stats.totalPostsGoal}포</span>
+            <div style={{ fontSize: '0.75rem', color: 'var(--text-sub)', fontWeight: 600, marginBottom: '2px' }}>누적 작성 수</div>
+            <div style={{ fontSize: '1.1rem', fontWeight: 800, color: 'var(--naver-green-light)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}>
+              <SplitFlapCounter value={stats.totalPostsCompleted} color="var(--naver-green-light)" />
+              <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>/ {stats.totalPostsGoal}포</span>
             </div>
           </div>
 
           <div style={{ background: 'rgba(0,0,0,0.25)', padding: '10px 16px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)', textAlign: 'center' }}>
-            <div style={{ fontSize: '0.75rem', color: 'var(--text-sub)', fontWeight: 600 }}>3포 완주 날짜</div>
-            <div style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--gold-primary)' }}>
-              {stats.fullCompletedDays} <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>/ {stats.totalDaysInMonth}일</span>
+            <div style={{ fontSize: '0.75rem', color: 'var(--text-sub)', fontWeight: 600, marginBottom: '2px' }}>3포 완주 날짜</div>
+            <div style={{ fontSize: '1.1rem', fontWeight: 800, color: 'var(--gold-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}>
+              <SplitFlapCounter value={stats.fullCompletedDays} color="var(--gold-primary)" />
+              <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>/ {stats.totalDaysInMonth}일</span>
             </div>
           </div>
 

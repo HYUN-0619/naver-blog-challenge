@@ -1,5 +1,6 @@
 import React from 'react';
 import { Calendar as CalendarIcon, Trophy, Flame, Download, RefreshCw, Moon, Sun, Sparkles, Image as ImageIcon, RotateCcw, BookOpen } from 'lucide-react';
+import SplitFlapCounter from './SplitFlapCounter';
 
 export default function Header({ 
   currentYear, 
@@ -106,7 +107,7 @@ export default function Header({
             display: 'flex',
             alignItems: 'center',
             gap: '6px',
-            padding: '8px 14px',
+            padding: '6px 12px',
             background: stats.streak > 0 
               ? 'linear-gradient(135deg, rgba(255,87,34,0.25) 0%, rgba(255,45,85,0.25) 100%)' 
               : 'rgba(255,255,255,0.05)',
@@ -114,14 +115,11 @@ export default function Header({
               ? '1px solid rgba(255,87,34,0.5)' 
               : '1px solid var(--border-color)',
             borderRadius: 'var(--radius-md)',
-            color: stats.streak > 0 ? '#FF7043' : 'var(--text-muted)',
-            fontWeight: 700,
-            fontSize: '0.9rem',
             boxShadow: stats.streak > 0 ? '0 0 15px rgba(255,87,34,0.3)' : 'none',
             transition: 'all 0.3s'
           }}>
             <Flame size={18} className={stats.streak > 0 ? "animate-flame" : ""} style={{ color: stats.streak > 0 ? '#FF5722' : 'var(--text-muted)' }} />
-            <span>{stats.streak}일 연속 달성!</span>
+            <SplitFlapCounter value={stats.streak} label="일 연속 달성!" color={stats.streak > 0 ? '#FF7043' : 'var(--text-muted)'} />
           </div>
 
           {/* Proof Card Generator Button */}
