@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Calendar as CalendarIcon, Trophy, Flame, Download, RefreshCw, Moon, Sun, Sparkles, Image as ImageIcon, RotateCcw, BookOpen, Users } from 'lucide-react';
+import React from 'react';
+import { Calendar as CalendarIcon, Trophy, Flame, Download, RefreshCw, Moon, Sun, Sparkles, Image as ImageIcon, RotateCcw, BookOpen } from 'lucide-react';
 import SplitFlapCounter from './SplitFlapCounter';
-import { getVisitorStats } from '../utils/visitor';
 
 export default function Header({ 
   currentYear, 
@@ -18,12 +17,6 @@ export default function Header({
   activeTab,
   onSelectTab
 }) {
-  const [visitorStats, setVisitorStats] = useState(() => getVisitorStats());
-
-  useEffect(() => {
-    setVisitorStats(getVisitorStats());
-  }, []);
-
   return (
     <header className="glass-panel" style={{ padding: '20px 28px', marginBottom: '24px' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
@@ -53,9 +46,6 @@ export default function Header({
               </span>
               <span className="badge badge-gold">
                 <Flame size={12} className="animate-flame" /> 1일 3포 완주 프로젝트
-              </span>
-              <span className="badge badge-blue" style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-                <Users size={12} /> 오늘 <strong style={{ color: '#FFFFFF' }}>{visitorStats.todayCount.toLocaleString()}명</strong> • 누적 <strong style={{ color: '#FFFFFF' }}>{visitorStats.totalCount.toLocaleString()}명</strong>
               </span>
             </div>
             <h1 style={{ fontSize: '1.65rem', fontWeight: 800, marginTop: '4px', letterSpacing: '-0.5px' }}>
