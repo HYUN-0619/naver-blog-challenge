@@ -149,31 +149,28 @@ export default function AnalyticsSection({ challengeData, year, month, stats }) 
       {/* 3 Motivational Quotes Daily Rolling Card */}
       <div className="glass-panel" style={{ padding: '22px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
         <div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
             <Lightbulb size={20} style={{ color: 'var(--accent-gold)' }} />
             <h3 style={{ fontSize: '1.05rem', fontWeight: 800 }}>오늘의 1일 3포 동기부여</h3>
           </div>
 
-          {/* 3 Quotes Stack */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-            {dailyQuotes.map((q) => {
+          {/* 3 Quotes List (No Boxes, Clean Text Only) */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+            {dailyQuotes.map((q, idx) => {
               const IconComp = q.icon;
               return (
                 <div
                   key={q.id}
                   style={{
-                    background: 'rgba(0, 0, 0, 0.25)',
-                    border: '1px solid var(--border-color)',
-                    borderRadius: 'var(--radius-md)',
-                    padding: '12px 14px',
-                    transition: 'all 0.2s'
+                    borderBottom: idx < dailyQuotes.length - 1 ? '1px solid rgba(255, 255, 255, 0.06)' : 'none',
+                    paddingBottom: idx < dailyQuotes.length - 1 ? '12px' : '0'
                   }}
                 >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.76rem', color: q.color, fontWeight: 700, marginBottom: '4px' }}>
-                    <IconComp size={13} />
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.78rem', color: q.color, fontWeight: 700, marginBottom: '4px' }}>
+                    <IconComp size={14} />
                     <span>{q.label}</span>
                   </div>
-                  <p style={{ fontSize: '0.88rem', fontWeight: 600, color: 'var(--text-main)', lineHeight: 1.5, margin: 0 }}>
+                  <p style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--text-main)', lineHeight: 1.55, margin: 0, letterSpacing: '-0.1px' }}>
                     {q.text}
                   </p>
                 </div>
@@ -183,7 +180,7 @@ export default function AnalyticsSection({ challengeData, year, month, stats }) 
         </div>
 
         {/* Bottom Tips */}
-        <div style={{ marginTop: '16px', borderTop: '1px dashed var(--border-color)', paddingTop: '10px' }}>
+        <div style={{ marginTop: '18px', borderTop: '1px dashed var(--border-color)', paddingTop: '10px' }}>
           <div style={{ fontSize: '0.78rem', color: 'var(--text-sub)' }}>
             💡 매일 동기부여 명언이 롤링 됩니다.
           </div>
