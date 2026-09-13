@@ -68,9 +68,6 @@ export default function AnalyticsSection({ challengeData, year, month, stats }) 
   const formattedMonth = String(month).padStart(2, '0');
   const monthPrefix = `${year}-${formattedMonth}`;
 
-  // State for manual shuffle offset
-  const [shuffleOffset, setShuffleOffset] = useState(0);
-
   // Count category distribution
   const categoryCounts = {};
   CATEGORIES.forEach(c => categoryCounts[c.label] = 0);
@@ -90,9 +87,9 @@ export default function AnalyticsSection({ challengeData, year, month, stats }) 
 
   const totalCatPosts = Object.values(categoryCounts).reduce((a, b) => a + b, 0);
 
-  // Calculate 3 distinct daily rolling quote indices based on date + shuffleOffset
+  // Calculate 3 distinct daily rolling quote indices based on date
   const dayOfYear = new Date().getDate() + (new Date().getMonth() * 31);
-  const baseIndex = (dayOfYear + shuffleOffset) % MOTIVATIONAL_QUOTES.length;
+  const baseIndex = dayOfYear % MOTIVATIONAL_QUOTES.length;
   
   const quote1 = MOTIVATIONAL_QUOTES[baseIndex];
   const quote2 = MOTIVATIONAL_QUOTES[(baseIndex + 17) % MOTIVATIONAL_QUOTES.length];
