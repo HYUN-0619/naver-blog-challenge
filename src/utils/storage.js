@@ -88,19 +88,43 @@ export function generateSampleData(year, month) {
   return data;
 }
 
+// Generate Clean Empty Data (0% progress for new visitors)
+export function generateEmptyData(year, month) {
+  const data = {};
+  const daysInMonth = new Date(year, month, 0).getDate();
+
+  for (let day = 1; day <= daysInMonth; day++) {
+    const formattedDay = String(day).padStart(2, '0');
+    const formattedMonth = String(month).padStart(2, '0');
+    const dateKey = `${year}-${formattedMonth}-${formattedDay}`;
+
+    data[dateKey] = {
+      date: dateKey,
+      posts: [
+        { id: 1, completed: false, title: '', category: CATEGORIES[0].label, url: '', image: '', note: '' },
+        { id: 2, completed: false, title: '', category: CATEGORIES[1].label, url: '', image: '', note: '' },
+        { id: 3, completed: false, title: '', category: CATEGORIES[2].label, url: '', image: '', note: '' }
+      ]
+    };
+  }
+
+  return data;
+}
+
 // Load data from LocalStorage
 export function loadChallengeData(year, month) {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) {
-      const initial = generateSampleData(year, month);
+      // First-time visitor: Start with 0% clean empty data (0 posts completed, 0% runner progress)
+      const initial = generateEmptyData(year, month);
       saveChallengeData(initial);
       return initial;
     }
     return JSON.parse(raw);
   } catch (e) {
     console.error("Failed to load local storage:", e);
-    return generateSampleData(year, month);
+    return generateEmptyData(year, month);
   }
 }
 
