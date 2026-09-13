@@ -61,10 +61,10 @@ export default function DayModal({ dateKey, dayData, onClose, onSave }) {
     setPosts([...posts, newPost]);
   };
 
-  // Delete a specific post slot
+  // Delete a specific post slot (Only 4th post and beyond can be deleted)
   const handleDeletePost = (idx) => {
-    if (posts.length <= 1) {
-      alert("최소 1개의 포스팅 항목은 유지되어야 합니다.");
+    if (idx < 3) {
+      alert("기본 1일 3포스팅(1~3번)은 삭제할 수 없습니다. 4번째 추가 포스팅부터 삭제가 가능합니다.");
       return;
     }
     const updated = posts.filter((_, i) => i !== idx);
@@ -246,27 +246,29 @@ export default function DayModal({ dateKey, dayData, onClose, onSave }) {
                       ))}
                     </select>
 
-                    {/* Delete Post Button */}
-                    <button
-                      type="button"
-                      onClick={() => handleDeletePost(idx)}
-                      style={{
-                        background: 'rgba(255, 45, 85, 0.15)',
-                        border: '1px solid rgba(255, 45, 85, 0.3)',
-                        color: '#FF2D55',
-                        borderRadius: 'var(--radius-sm)',
-                        padding: '4px 8px',
-                        fontSize: '0.78rem',
-                        cursor: 'pointer',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '4px'
-                      }}
-                      title="이 포스팅 삭제"
-                    >
-                      <Trash2 size={13} />
-                      <span>삭제</span>
-                    </button>
+                    {/* Delete Post Button (Only available for 4th post and beyond) */}
+                    {idx >= 3 && (
+                      <button
+                        type="button"
+                        onClick={() => handleDeletePost(idx)}
+                        style={{
+                          background: 'rgba(255, 45, 85, 0.15)',
+                          border: '1px solid rgba(255, 45, 85, 0.3)',
+                          color: '#FF2D55',
+                          borderRadius: 'var(--radius-sm)',
+                          padding: '4px 8px',
+                          fontSize: '0.78rem',
+                          cursor: 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '4px'
+                        }}
+                        title="추가 포스팅 삭제"
+                      >
+                        <Trash2 size={13} />
+                        <span>삭제</span>
+                      </button>
+                    )}
                   </div>
                 </div>
 
