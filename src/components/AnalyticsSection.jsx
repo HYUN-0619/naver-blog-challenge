@@ -1,6 +1,7 @@
-import React from 'react';
-import { PieChart, Lightbulb, Sparkles, Flame, Trophy } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { PieChart, Lightbulb, Sparkles, Flame, Trophy, Users, Activity, TrendingUp } from 'lucide-react';
 import { CATEGORIES } from '../utils/storage';
+import { getVisitorStats } from '../utils/visitor';
 
 const MOTIVATIONAL_QUOTES = [
   // 1 ~ 10
@@ -68,6 +69,12 @@ export default function AnalyticsSection({ challengeData, year, month, stats }) 
   const formattedMonth = String(month).padStart(2, '0');
   const monthPrefix = `${year}-${formattedMonth}`;
 
+  const [visitorStats, setVisitorStats] = useState(() => getVisitorStats());
+
+  useEffect(() => {
+    setVisitorStats(getVisitorStats());
+  }, []);
+
   // Count category distribution
   const categoryCounts = {};
   CATEGORIES.forEach(c => categoryCounts[c.label] = 0);
@@ -102,9 +109,9 @@ export default function AnalyticsSection({ challengeData, year, month, stats }) 
   ];
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '20px', marginBottom: '30px' }}>
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '20px', marginBottom: '30px' }}>
       
-      {/* Category Breakdown Card */}
+      {/* Card 1: Category Breakdown Card */}
       <div className="glass-panel" style={{ padding: '22px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
@@ -143,7 +150,7 @@ export default function AnalyticsSection({ challengeData, year, month, stats }) 
         </div>
       </div>
 
-      {/* 3 Motivational Quotes Daily Rolling Card */}
+      {/* Card 2: 3 Motivational Quotes Daily Rolling Card */}
       <div className="glass-panel" style={{ padding: '22px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
@@ -185,6 +192,66 @@ export default function AnalyticsSection({ challengeData, year, month, stats }) 
 
       </div>
 
+      {/* Card 3: Live Daily & Cumulative Total Visitor Statistics Card */}
+      <div className="glass-panel" style={{ padding: '22px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+        <div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <Users size={20} style={{ color: '#00D0FF' }} />
+              <h3 style={{ fontSize: '1.05rem', fontWeight: 800 }}>실시간 방문자 & 챌린저 통계</h3>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '0.72rem', background: 'rgba(3,199,90,0.15)', color: 'var(--naver-green-light)', padding: '3px 8px', borderRadius: '10px', border: '1px solid rgba(3,199,90,0.3)', fontWeight: 700 }}>
+              <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--naver-green)', display: 'inline-block', boxShadow: '0 0 8px var(--naver-green)' }} />
+              LIVE
+            </div>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '14px' }}>
+            {/* Today Visitors */}
+            <div style={{ background: 'rgba(0,0,0,0.25)', border: '1px solid rgba(0, 208, 255, 0.3)', borderRadius: 'var(--radius-md)', padding: '14px', textAlign: 'center' }}>
+              <div style={{ fontSize: '0.76rem', color: 'var(--text-sub)', fontWeight: 600, marginBottom: '4px' }}>
+                ☀️ 오늘 방문자
+              </div>
+              <div style={{ fontSize: '1.45rem', fontWeight: 900, color: '#00D0FF', fontFamily: "'Outfit', sans-serif" }}>
+                {visitorStats.todayCount.toLocaleString()}<span style={{ fontSize: '0.85rem', fontWeight: 600, marginLeft: '2px', color: 'var(--text-muted)' }}>명</span>
+              </div>
+            </div>
+
+            {/* Total Cumulative Visitors */}
+            <div style={{ background: 'rgba(0,0,0,0.25)', border: '1px solid rgba(3, 199, 90, 0.3)', borderRadius: 'var(--radius-md)', padding: '14px', textAlign: 'center' }}>
+              <div style={{ fontSize: '0.76rem', color: 'var(--text-sub)', fontWeight: 600, marginBottom: '4px' }}>
+                🚀 누적 총 방문자
+              </div>
+              <div style={{ fontSize: '1.45rem', fontWeight: 900, color: 'var(--naver-green-light)', fontFamily: "'Outfit', sans-serif" }}>
+                {visitorStats.totalCount.toLocaleString()}<span style={{ fontSize: '0.85rem', fontWeight: 600, marginLeft: '2px', color: 'var(--text-muted)' }}>명</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Active Challengers Today Banner */}
+          <div style={{ background: 'rgba(255, 184, 0, 0.08)', border: '1px solid rgba(255, 184, 0, 0.25)', borderRadius: 'var(--radius-md)', padding: '12px 14px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <TrendingUp size={20} style={{ color: 'var(--gold-primary)', flexShrink: 0 }} />
+            <div>
+              <div style={{ fontSize: '0.82rem', fontWeight: 700, color: 'var(--text-main)' }}>
+                오늘 1일 3포 함께 달리는 러너
+              </div>
+              <div style={{ fontSize: '0.76rem', color: 'var(--text-sub)', marginTop: '2px' }}>
+                오늘도 수많은 블로거들이 완주 목표를 지키고 있습니다! 🔥
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom Status */}
+        <div style={{ marginTop: '18px', borderTop: '1px dashed var(--border-color)', paddingTop: '10px' }}>
+          <div style={{ fontSize: '0.78rem', color: 'var(--text-sub)' }}>
+            📊 방문자 통계는 24시간 실시간 집계됩니다.
+          </div>
+        </div>
+
+      </div>
+
     </div>
   );
 }
+
