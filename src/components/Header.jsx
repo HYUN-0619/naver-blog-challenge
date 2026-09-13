@@ -1,5 +1,5 @@
 import React from 'react';
-import { Calendar as CalendarIcon, Trophy, Flame, Download, RefreshCw, Moon, Sun, Sparkles, Image as ImageIcon, RotateCcw } from 'lucide-react';
+import { Calendar as CalendarIcon, Trophy, Flame, Download, RefreshCw, Moon, Sun, Sparkles, Image as ImageIcon, RotateCcw, BookOpen } from 'lucide-react';
 
 export default function Header({ 
   currentYear, 
@@ -54,7 +54,7 @@ export default function Header({
         </div>
 
         {/* Tab Navigation Switcher */}
-        <div style={{ display: 'flex', gap: '8px', background: 'rgba(0,0,0,0.3)', padding: '4px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)' }}>
+        <div style={{ display: 'flex', gap: '8px', background: 'rgba(0,0,0,0.3)', padding: '4px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)', flexWrap: 'wrap' }}>
           <button
             onClick={() => onSelectTab('dashboard')}
             className={activeTab === 'dashboard' ? 'btn btn-naver' : 'btn btn-secondary'}
@@ -68,6 +68,13 @@ export default function Header({
             style={{ padding: '8px 16px', fontSize: '0.88rem' }}
           >
             <Trophy size={16} /> 명예의 전당 갤러리
+          </button>
+          <button
+            onClick={() => onSelectTab('guide')}
+            className={activeTab === 'guide' ? 'btn btn-blue' : 'btn btn-secondary'}
+            style={{ padding: '8px 16px', fontSize: '0.88rem' }}
+          >
+            <BookOpen size={16} /> 포스팅 가이드 💡
           </button>
         </div>
 

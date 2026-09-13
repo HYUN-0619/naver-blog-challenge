@@ -8,6 +8,10 @@ import DayModal from './components/DayModal';
 import ProofCardModal from './components/ProofCardModal';
 import AnalyticsSection from './components/AnalyticsSection';
 import TrophyGallery from './components/TrophyGallery';
+import BlogGuideSection from './components/BlogGuideSection';
+import PrivacyModal from './components/PrivacyModal';
+import TermsModal from './components/TermsModal';
+import Footer from './components/Footer';
 import { loadChallengeData, saveChallengeData, calculateStats, generateSampleData, CATEGORIES } from './utils/storage';
 
 export default function App() {
@@ -15,7 +19,7 @@ export default function App() {
   const [currentYear, setCurrentYear] = useState(today.getFullYear());
   const [currentMonth, setCurrentMonth] = useState(today.getMonth() + 1);
   const [theme, setTheme] = useState('dark');
-  const [activeTab, setActiveTab] = useState('dashboard'); // 'dashboard' | 'trophy'
+  const [activeTab, setActiveTab] = useState('dashboard'); // 'dashboard' | 'trophy' | 'guide'
 
   // Load Challenge Data
   const [challengeData, setChallengeData] = useState(() => {
@@ -24,6 +28,8 @@ export default function App() {
 
   const [selectedDateKey, setSelectedDateKey] = useState(null);
   const [showProofModal, setShowProofModal] = useState(false);
+  const [showPrivacyModal, setShowPrivacyModal] = useState(false);
+  const [showTermsModal, setShowTermsModal] = useState(false);
 
   // Sync theme attribute to HTML
   useEffect(() => {
@@ -233,7 +239,7 @@ export default function App() {
             stats={stats}
           />
         </>
-      ) : (
+      ) : activeTab === 'trophy' ? (
         /* Monthly Trophy Gallery (Hall of Fame) Tab */
         <TrophyGallery
           challengeData={challengeData}
@@ -247,6 +253,9 @@ export default function App() {
             setShowProofModal(true);
           }}
         />
+      ) : (
+        /* Blogger 1 Day 3 Posts Guide & FAQ Tab */
+        <BlogGuideSection />
       )}
 
       {/* Day Edit Modal */}
@@ -269,10 +278,22 @@ export default function App() {
         />
       )}
 
-      {/* Footer Branding */}
-      <footer style={{ textAlign: 'center', color: 'var(--text-sub)', fontSize: '0.85rem', marginTop: '40px', borderTop: '1px solid var(--border-color)', paddingTop: '20px' }}>
-        <p>네이버 블로그 1일 3포 챌린지 캘린더 &copy; {currentYear} • 꾸준함이 만드는 기적 🔥</p>
-      </footer>
+      {/* Privacy Policy Modal */}
+      {showPrivacyModal && (
+        <PrivacyModal onClose={() => setShowPrivacyModal(false)} />
+      )}
+
+      {/* Terms & About Modal */}
+      {showTermsModal && (
+        <TermsModal onClose={() => setShowTermsModal(false)} />
+      )}
+
+      {/* Footer Branding & Legal Links */}
+      <Footer
+        currentYear={currentYear}
+        onOpenPrivacy={() => setShowPrivacyModal(true)}
+        onOpenTerms={() => setShowTermsModal(true)}
+      />
 
     </div>
   );
