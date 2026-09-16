@@ -1,16 +1,34 @@
-import { onRequestGet, onRequestPost } from './functions/api/visit.js';
+import { onRequestGet as onVisitGet, onRequestPost as onVisitPost } from './functions/api/visit.js';
+import { onRequestGet as onFeedbackGet, onRequestPost as onFeedbackPost } from './functions/api/feedback.js';
+import { onRequestPost as onVotePost } from './functions/api/feedback/vote.js';
 
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
+    const context = { request, env, ctx };
 
     // Route /api/visit
     if (url.pathname === '/api/visit') {
-      const context = { request, env, ctx };
       if (request.method === 'POST') {
-        return onRequestPost(context);
+        return onVisitPost(context);
       }
-      return onRequestGet(context);
+      return onVisitGet(context);
+    }
+
+    // Route /api/feedback/vote
+    if (url.pathname === '/api/feedback/vote') {
+      if (request.method === 'POST') {
+        return onVotePost(context);
+      }
+      return new Response('Method Not Allowed', { status: 405 });
+    }
+
+    // Route /api/feedback
+    if (url.pathname === '/api/feedback') {
+      if (request.method === 'POST') {
+        return onFeedbackPost(context);
+      }
+      return onFeedbackGet(context);
     }
 
     // Serve static assets from ./dist

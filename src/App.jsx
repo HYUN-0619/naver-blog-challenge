@@ -9,6 +9,7 @@ import ProofCardModal from './components/ProofCardModal';
 import AnalyticsSection from './components/AnalyticsSection';
 import TrophyGallery from './components/TrophyGallery';
 import BlogGuideSection from './components/BlogGuideSection';
+import FeedbackBoard from './components/FeedbackBoard';
 import PrivacyModal from './components/PrivacyModal';
 import TermsModal from './components/TermsModal';
 import WelcomeGuideModal from './components/WelcomeGuideModal';
@@ -20,7 +21,7 @@ export default function App() {
   const [currentYear, setCurrentYear] = useState(today.getFullYear());
   const [currentMonth, setCurrentMonth] = useState(today.getMonth() + 1);
   const [theme, setTheme] = useState('dark');
-  const [activeTab, setActiveTab] = useState('dashboard'); // 'dashboard' | 'trophy' | 'guide'
+  const [activeTab, setActiveTab] = useState('dashboard'); // 'dashboard' | 'trophy' | 'guide' | 'feedback'
 
   // Load Challenge Data
   const [challengeData, setChallengeData] = useState(() => {
@@ -259,9 +260,12 @@ export default function App() {
             setShowProofModal(true);
           }}
         />
-      ) : (
+      ) : activeTab === 'guide' ? (
         /* Blogger 1 Day 3 Posts Guide & FAQ Tab */
         <BlogGuideSection />
+      ) : (
+        /* Canny Style Feature Request & Upvoting Board Tab */
+        <FeedbackBoard />
       )}
 
       {/* Day Edit Modal */}

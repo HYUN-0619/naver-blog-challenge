@@ -1,5 +1,5 @@
 import React from 'react';
-import { Calendar as CalendarIcon, Trophy, Flame, Download, RefreshCw, Moon, Sun, Sparkles, Image as ImageIcon, RotateCcw, BookOpen } from 'lucide-react';
+import { Calendar as CalendarIcon, Trophy, Flame, Download, RefreshCw, Moon, Sun, Sparkles, Image as ImageIcon, RotateCcw, BookOpen, MessageSquarePlus } from 'lucide-react';
 import SplitFlapCounter from './SplitFlapCounter';
 
 export default function Header({ 
@@ -76,6 +76,13 @@ export default function Header({
             style={{ padding: '8px 16px', fontSize: '0.88rem' }}
           >
             <BookOpen size={16} /> 포스팅 가이드 💡
+          </button>
+          <button
+            onClick={() => onSelectTab('feedback')}
+            className={activeTab === 'feedback' ? 'btn btn-naver' : 'btn btn-secondary'}
+            style={{ padding: '8px 16px', fontSize: '0.88rem' }}
+          >
+            <MessageSquarePlus size={16} /> 기능 제안 & 투표 🚀
           </button>
         </div>
 
