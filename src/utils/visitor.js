@@ -1,11 +1,8 @@
 // Visitor Counter Tracking Utility for Naver Blog Challenge
+// Connected to Cloudflare D1 Real-Time Analytics
 
 const VISITOR_KEY = 'po3_visitor_stats_data';
 const SESSION_KEY = 'po3_session_logged';
-
-// Base organic counts for realistic display
-export const BASE_TODAY = 142;
-export const BASE_TOTAL = 3480;
 
 // Synchronous cached getter for immediate rendering (no flicker)
 export function getVisitorStats() {
@@ -16,11 +13,12 @@ export function getVisitorStats() {
     let stats = raw ? JSON.parse(raw) : null;
 
     if (!stats || stats.todayDate !== todayStr) {
-      const prevTotal = stats ? stats.totalCount : BASE_TOTAL;
+      const prevTotal = stats ? stats.totalCount : 0;
       stats = {
         todayDate: todayStr,
-        todayCount: BASE_TODAY,
-        totalCount: prevTotal,
+        activeNow: 1,
+        todayCount: stats ? stats.todayCount : 1,
+        totalCount: prevTotal || 1,
         lastVisit: Date.now()
       };
       localStorage.setItem(VISITOR_KEY, JSON.stringify(stats));
@@ -30,8 +28,9 @@ export function getVisitorStats() {
   } catch (e) {
     return {
       todayDate: todayStr,
-      todayCount: BASE_TODAY,
-      totalCount: BASE_TOTAL,
+      activeNow: 1,
+      todayCount: 1,
+      totalCount: 1,
       lastVisit: Date.now()
     };
   }
@@ -64,8 +63,9 @@ export async function fetchAndRecordVisit() {
     if (data && (data.todayCount !== undefined || data.totalCount !== undefined)) {
       const newStats = {
         todayDate: todayStr,
-        todayCount: data.todayCount ?? BASE_TODAY,
-        totalCount: data.totalCount ?? BASE_TOTAL,
+        activeNow: data.activeNow ?? 1,
+        todayCount: data.todayCount ?? 1,
+        totalCount: data.totalCount ?? 1,
         lastVisit: Date.now()
       };
 
@@ -77,10 +77,32 @@ export async function fetchAndRecordVisit() {
       return newStats;
     }
   } catch (err) {
-    // Graceful fallback to cached stats if API is unreachable (e.g. local dev without server)
     console.debug('Visitor API offline or not yet configured, using local stats:', err.message);
   }
 
   return getVisitorStats();
 }
 
+// Poll live stats without re-recording visit
+export async function pollLiveStats() {
+  const todayStr = new Date().toISOString().split('T')[0];
+  try {
+    const res = await fetch('/api/visit');
+    if (!res.ok) return null;
+    const data = await res.json();
+    if (data && data.todayCount !== undefined) {
+      const newStats = {
+        todayDate: todayStr,
+        activeNow: data.activeNow ?? 1,
+        todayCount: data.todayCount,
+        totalCount: data.totalCount,
+        lastVisit: Date.now()
+      };
+      localStorage.setItem(VISITOR_KEY, JSON.stringify(newStats));
+      return newStats;
+    }
+  } catch (err) {
+    // silent
+  }
+  return null;
+}

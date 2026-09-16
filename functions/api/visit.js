@@ -1,9 +1,6 @@
 // Cloudflare Pages Function: /api/visit
 // Handles visitor logging and real-time statistics via Cloudflare D1
 
-const BASE_TODAY = 142;
-const BASE_TOTAL = 3480;
-
 // Helper: Hash IP to protect user privacy (SHA-256)
 async function hashIp(ip) {
   const encoder = new TextEncoder();
@@ -20,7 +17,7 @@ function getKstDateStr() {
   return kst.toISOString().split('T')[0];
 }
 
-// Helper: Query Visitor Counts
+// Helper: Query Visitor Counts (100% Real D1 Statistics)
 async function getCounts(db, dateStr) {
   try {
     const todayResult = await db.prepare(
@@ -31,20 +28,28 @@ async function getCounts(db, dateStr) {
       'SELECT COUNT(DISTINCT ip_hash) as count FROM visitor_logs'
     ).first();
 
+    // Active visitors within the last 10 minutes
+    const activeResult = await db.prepare(
+      "SELECT COUNT(DISTINCT ip_hash) as count FROM visitor_logs WHERE created_at >= datetime('now', '-10 minutes')"
+    ).first();
+
     const realToday = Number(todayResult?.count || 0);
     const realTotal = Number(totalResult?.count || 0);
+    const activeNow = Math.max(1, Number(activeResult?.count || 1));
 
     return {
-      todayCount: BASE_TODAY + realToday,
-      totalCount: BASE_TOTAL + realTotal,
+      activeNow,
+      todayCount: realToday,
+      totalCount: realTotal,
       realToday,
       realTotal
     };
   } catch (e) {
     console.error('D1 query error:', e);
     return {
-      todayCount: BASE_TODAY,
-      totalCount: BASE_TOTAL,
+      activeNow: 1,
+      todayCount: 0,
+      totalCount: 0,
       realToday: 0,
       realTotal: 0
     };
@@ -87,8 +92,9 @@ export async function onRequestGet(context) {
     return new Response(JSON.stringify({
       success: true,
       fallback: true,
-      todayCount: BASE_TODAY,
-      totalCount: BASE_TOTAL
+      activeNow: 1,
+      todayCount: 1,
+      totalCount: 1
     }), {
       headers: { 'Content-Type': 'application/json' }
     });
@@ -119,8 +125,9 @@ export async function onRequestPost(context) {
     return new Response(JSON.stringify({
       success: true,
       fallback: true,
-      todayCount: BASE_TODAY,
-      totalCount: BASE_TOTAL
+      activeNow: 1,
+      todayCount: 1,
+      totalCount: 1
     }), {
       headers: { 'Content-Type': 'application/json' }
     });

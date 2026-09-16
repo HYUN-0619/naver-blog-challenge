@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { PieChart, Lightbulb, Sparkles, Flame, Trophy, Users, TrendingUp } from 'lucide-react';
 import { CATEGORIES } from '../utils/storage';
-import { getVisitorStats, fetchAndRecordVisit } from '../utils/visitor';
+import { getVisitorStats, fetchAndRecordVisit, pollLiveStats } from '../utils/visitor';
 
 const MOTIVATIONAL_QUOTES = [
   // 1 ~ 10
@@ -78,8 +78,19 @@ export default function AnalyticsSection({ challengeData, year, month, stats }) 
         setVisitorStats(stats);
       }
     });
+
+    // 30-second live polling interval
+    const interval = setInterval(() => {
+      pollLiveStats().then(stats => {
+        if (isMounted && stats) {
+          setVisitorStats(stats);
+        }
+      });
+    }, 30000);
+
     return () => {
       isMounted = false;
+      clearInterval(interval);
     };
   }, []);
 
@@ -206,7 +217,7 @@ export default function AnalyticsSection({ challengeData, year, month, stats }) 
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <Users size={20} style={{ color: '#00D0FF' }} />
-              <h3 style={{ fontSize: '1.05rem', fontWeight: 800 }}>실시간 방문자 & 챌린저 통계</h3>
+              <h3 style={{ fontSize: '1.05rem', fontWeight: 800 }}>실시간 방문자 통계</h3>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '0.72rem', background: 'rgba(3,199,90,0.15)', color: 'var(--naver-green-light)', padding: '3px 8px', borderRadius: '10px', border: '1px solid rgba(3,199,90,0.3)', fontWeight: 700 }}>
               <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--naver-green)', display: 'inline-block', boxShadow: '0 0 8px var(--naver-green)' }} />
@@ -214,14 +225,48 @@ export default function AnalyticsSection({ challengeData, year, month, stats }) 
             </div>
           </div>
 
+          {/* Active Users Right Now Highlight */}
+          <div style={{
+            background: 'linear-gradient(135deg, rgba(3, 199, 90, 0.15) 0%, rgba(0, 208, 255, 0.12) 100%)',
+            border: '1px solid rgba(3, 199, 90, 0.35)',
+            borderRadius: 'var(--radius-md)',
+            padding: '12px 16px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            marginBottom: '14px'
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <span style={{
+                width: '10px',
+                height: '10px',
+                borderRadius: '50%',
+                background: 'var(--naver-green)',
+                display: 'inline-block',
+                boxShadow: '0 0 10px var(--naver-green)'
+              }} />
+              <div>
+                <div style={{ fontSize: '0.82rem', fontWeight: 800, color: 'var(--text-main)' }}>
+                  현재 사이트 접속 중
+                </div>
+                <div style={{ fontSize: '0.74rem', color: 'var(--text-sub)' }}>
+                  실시간 활성 러너
+                </div>
+              </div>
+            </div>
+            <div style={{ fontSize: '1.5rem', fontWeight: 900, color: 'var(--naver-green-light)', fontFamily: "'Outfit', sans-serif" }}>
+              {visitorStats.activeNow || 1}<span style={{ fontSize: '0.85rem', fontWeight: 600, marginLeft: '3px', color: 'var(--text-muted)' }}>명</span>
+            </div>
+          </div>
+
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '14px' }}>
             {/* Today Visitors */}
             <div style={{ background: 'rgba(0,0,0,0.25)', border: '1px solid rgba(0, 208, 255, 0.3)', borderRadius: 'var(--radius-md)', padding: '14px', textAlign: 'center' }}>
               <div style={{ fontSize: '0.76rem', color: 'var(--text-sub)', fontWeight: 600, marginBottom: '4px' }}>
-                ☀️ 오늘 방문자
+                ☀️ 오늘 순 방문자
               </div>
               <div style={{ fontSize: '1.45rem', fontWeight: 900, color: '#00D0FF', fontFamily: "'Outfit', sans-serif" }}>
-                {visitorStats.todayCount.toLocaleString()}<span style={{ fontSize: '0.85rem', fontWeight: 600, marginLeft: '2px', color: 'var(--text-muted)' }}>명</span>
+                {(visitorStats.todayCount ?? 0).toLocaleString()}<span style={{ fontSize: '0.85rem', fontWeight: 600, marginLeft: '2px', color: 'var(--text-muted)' }}>명</span>
               </div>
             </div>
 
@@ -231,29 +276,16 @@ export default function AnalyticsSection({ challengeData, year, month, stats }) 
                 🚀 누적 총 방문자
               </div>
               <div style={{ fontSize: '1.45rem', fontWeight: 900, color: 'var(--naver-green-light)', fontFamily: "'Outfit', sans-serif" }}>
-                {visitorStats.totalCount.toLocaleString()}<span style={{ fontSize: '0.85rem', fontWeight: 600, marginLeft: '2px', color: 'var(--text-muted)' }}>명</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Active Challengers Today Banner */}
-          <div style={{ background: 'rgba(255, 184, 0, 0.08)', border: '1px solid rgba(255, 184, 0, 0.25)', borderRadius: 'var(--radius-md)', padding: '12px 14px', display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <TrendingUp size={20} style={{ color: 'var(--gold-primary)', flexShrink: 0 }} />
-            <div>
-              <div style={{ fontSize: '0.82rem', fontWeight: 700, color: 'var(--text-main)' }}>
-                오늘 1일 3포 함께 달리는 러너
-              </div>
-              <div style={{ fontSize: '0.76rem', color: 'var(--text-sub)', marginTop: '2px' }}>
-                오늘도 수많은 블로거들이 완주 목표를 지키고 있습니다! 🔥
+                {(visitorStats.totalCount ?? 0).toLocaleString()}<span style={{ fontSize: '0.85rem', fontWeight: 600, marginLeft: '2px', color: 'var(--text-muted)' }}>명</span>
               </div>
             </div>
           </div>
         </div>
 
         {/* Bottom Status */}
-        <div style={{ marginTop: '18px', borderTop: '1px dashed var(--border-color)', paddingTop: '10px' }}>
-          <div style={{ fontSize: '0.78rem', color: 'var(--text-sub)' }}>
-            📊 방문자 통계는 24시간 실시간 집계됩니다.
+        <div style={{ marginTop: '14px', borderTop: '1px dashed var(--border-color)', paddingTop: '10px' }}>
+          <div style={{ fontSize: '0.76rem', color: 'var(--text-sub)' }}>
+            📊 Cloudflare D1 기반으로 30초마다 실시간 자동 갱신됩니다.
           </div>
         </div>
 
