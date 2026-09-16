@@ -1,8 +1,17 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "naver-blog-challenge",
+  "main": "worker.js",
   "compatibility_date": "2026-09-11",
   "assets": {
-    "directory": "./dist"
-  }
+    "directory": "./dist",
+    "binding": "ASSETS"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "naver-challenge-db",
+      "database_id": "2a1caff8-dbff-40b8-8f07-97fca19db362"
+    }
+  ]
 }

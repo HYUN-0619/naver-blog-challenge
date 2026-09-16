@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { PieChart, Lightbulb, Sparkles, Flame, Trophy, Users, TrendingUp } from 'lucide-react';
 import { CATEGORIES } from '../utils/storage';
-import { getVisitorStats } from '../utils/visitor';
+import { getVisitorStats, fetchAndRecordVisit } from '../utils/visitor';
 
 const MOTIVATIONAL_QUOTES = [
   // 1 ~ 10
@@ -72,7 +72,15 @@ export default function AnalyticsSection({ challengeData, year, month, stats }) 
   const [visitorStats, setVisitorStats] = useState(() => getVisitorStats());
 
   useEffect(() => {
-    setVisitorStats(getVisitorStats());
+    let isMounted = true;
+    fetchAndRecordVisit().then(stats => {
+      if (isMounted && stats) {
+        setVisitorStats(stats);
+      }
+    });
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   // Count category distribution
