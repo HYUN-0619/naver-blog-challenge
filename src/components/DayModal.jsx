@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
-import { X, CheckCircle, Flame, Link as LinkIcon, Image as ImageIcon, Sparkles, Zap, Trash2, RotateCcw, Plus } from 'lucide-react';
+import { X, CheckCircle, Flame, Link as LinkIcon, Image as ImageIcon, Sparkles, Zap, Trash2, RotateCcw, Plus, RefreshCw } from 'lucide-react';
 import { CATEGORIES } from '../utils/storage';
+import { getSavedNaverBlogId, saveNaverBlogId, fetchNaverBlogRss } from '../utils/naverRss';
 
 export default function DayModal({ dateKey, dayData, onClose, onSave }) {
   const [posts, setPosts] = useState(
@@ -97,6 +98,67 @@ export default function DayModal({ dateKey, dayData, onClose, onSave }) {
     onSave(dateKey, reset);
   };
 
+  const [importingFromNaver, setImportingFromNaver] = useState(false);
+
+  // Import posts for this specific dateKey from Naver Blog RSS
+  const handleImportFromNaver = async () => {
+    let savedId = getSavedNaverBlogId();
+    if (!savedId) {
+      const input = window.prompt("네이버 블로그 아이디를 입력해주세요 (예: naver_diary 또는 블로그 주소):");
+      if (!input || !input.trim()) return;
+      savedId = saveNaverBlogId(input);
+    }
+
+    setImportingFromNaver(true);
+    try {
+      const res = await fetchNaverBlogRss(savedId);
+      if (!res.success) {
+        alert(res.error || "네이버 블로그 글을 불러오지 못했습니다.");
+        return;
+      }
+
+      // Filter items matching this dateKey
+      const dayItems = (res.items || []).filter(item => item.dateKey === dateKey);
+      if (dayItems.length === 0) {
+        alert(`네이버 블로그 RSS 피드에 ${dateKey} 일자의 발행 글이 없습니다.\n(최근 피드에 없는 과거 글은 직접 입력해주세요)`);
+        return;
+      }
+
+      // Sort chronological
+      dayItems.sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0));
+
+      const updated = JSON.parse(JSON.stringify(posts));
+      dayItems.forEach((item, idx) => {
+        if (idx < updated.length) {
+          updated[idx].completed = true;
+          updated[idx].title = item.title;
+          updated[idx].url = item.link;
+          updated[idx].category = item.category || updated[idx].category || '일상';
+          updated[idx].note = `네이버 블로그 연동 (${item.time || ''})`;
+        } else {
+          updated.push({
+            id: Date.now() + idx,
+            completed: true,
+            title: item.title,
+            category: item.category || '일상',
+            url: item.link,
+            image: '',
+            note: `네이버 블로그 추가 포스팅 (${item.time || ''})`
+          });
+        }
+      });
+
+      setPosts(updated);
+      triggerFireworks();
+      alert(`🎉 네이버 블로그에서 ${dateKey}에 발행된 글 ${dayItems.length}건을 성공적으로 가져왔습니다!`);
+    } catch (err) {
+      console.error(err);
+      alert("글을 가져오는 중 오류가 발생했습니다.");
+    } finally {
+      setImportingFromNaver(false);
+    }
+  };
+
   // Image Upload Handler (Convert file to base64 for local display & storage)
   const handleImageUpload = (idx, event) => {
     const file = event.target.files?.[0];
@@ -148,7 +210,25 @@ export default function DayModal({ dateKey, dayData, onClose, onSave }) {
             <span style={{ fontSize: '0.9rem', fontWeight: 600 }}>오늘의 포스팅 상태: <strong>{completedCount} / {posts.length} 개 완료</strong></span>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+            <button 
+              type="button" 
+              onClick={handleImportFromNaver} 
+              disabled={importingFromNaver} 
+              className="btn btn-naver" 
+              style={{ padding: '6px 14px', fontSize: '0.85rem', fontWeight: 700 }}
+              title="이 날짜에 네이버 블로그에 발행한 글 자동 가져오기"
+            >
+              {importingFromNaver ? (
+                <>
+                  <RefreshCw size={14} className="animate-spin" /> 불러오는 중...
+                </>
+              ) : (
+                <>
+                  <Zap size={14} /> 네이버에서 불러오기
+                </>
+              )}
+            </button>
             <button type="button" onClick={handleResetDay} className="btn btn-danger" style={{ padding: '6px 14px', fontSize: '0.85rem' }} title="이 날짜 기록 초기화">
               <RotateCcw size={14} /> 기록 초기화
             </button>

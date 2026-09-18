@@ -2,11 +2,20 @@ import { onRequestGet as onVisitGet, onRequestPost as onVisitPost } from './func
 import { onRequestGet as onFeedbackGet, onRequestPost as onFeedbackPost } from './functions/api/feedback.js';
 import { onRequestPost as onVotePost } from './functions/api/feedback/vote.js';
 import { onRequestGet as onChallengeGet, onRequestPost as onChallengePost } from './functions/api/challenge.js';
+import { onRequestGet as onNaverRssGet } from './functions/api/naver-rss.js';
 
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
     const context = { request, env, ctx };
+
+    // Route /api/naver-rss
+    if (url.pathname === '/api/naver-rss') {
+      if (request.method === 'GET') {
+        return onNaverRssGet(context);
+      }
+      return new Response('Method Not Allowed', { status: 405 });
+    }
 
     // Route /api/visit
     if (url.pathname === '/api/visit') {

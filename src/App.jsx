@@ -11,12 +11,14 @@ import TrophyGallery from './components/TrophyGallery';
 import BlogGuideSection from './components/BlogGuideSection';
 import FeedbackBoard from './components/FeedbackBoard';
 import GlobalActivityBanner from './components/GlobalActivityBanner';
+import NaverSyncModal from './components/NaverSyncModal';
 import PrivacyModal from './components/PrivacyModal';
 import TermsModal from './components/TermsModal';
 import WelcomeGuideModal from './components/WelcomeGuideModal';
 import Footer from './components/Footer';
 import { loadChallengeData, saveChallengeData, calculateStats, generateSampleData, CATEGORIES } from './utils/storage';
 import { recordChallengeEvent } from './utils/challenge';
+import { getSavedNaverBlogId } from './utils/naverRss';
 
 export default function App() {
   const today = new Date();
@@ -32,6 +34,7 @@ export default function App() {
 
   const [selectedDateKey, setSelectedDateKey] = useState(null);
   const [showProofModal, setShowProofModal] = useState(false);
+  const [showNaverSyncModal, setShowNaverSyncModal] = useState(false);
   const [showPrivacyModal, setShowPrivacyModal] = useState(false);
   const [showTermsModal, setShowTermsModal] = useState(false);
   const [showWelcomeModal, setShowWelcomeModal] = useState(() => {
@@ -110,6 +113,40 @@ export default function App() {
       }
     } catch (e) {
       console.debug('Failed to send challenge event:', e);
+    }
+  };
+
+  // Naver Blog RSS Sync Handler
+  const handleApplyNaverSync = (updated, meta) => {
+    setChallengeData(updated);
+    saveChallengeData(updated);
+
+    try {
+      const savedId = getSavedNaverBlogId() || '네이버러너';
+      const maskedName = savedId.length > 3 ? `${savedId.slice(0, 3)}***` : `${savedId}***`;
+
+      if (meta.type === 'today') {
+        const todayDay = updated[meta.targetDateKey];
+        const completedPosts = (todayDay?.posts || []).filter(p => p.completed);
+        const lastTitle = completedPosts[completedPosts.length - 1]?.title || '네이버 글 자동 인증';
+        recordChallengeEvent({
+          eventType: completedPosts.length >= 3 ? 'day_finished' : 'post_completed',
+          postNumber: completedPosts.length,
+          postTitle: completedPosts.length >= 3 ? '네이버 3포 자동 완주 도장 쾅! 🔥' : lastTitle,
+          category: completedPosts[completedPosts.length - 1]?.category || '일상',
+          nickname: maskedName
+        });
+      } else if (meta.type === 'month') {
+        recordChallengeEvent({
+          eventType: 'day_finished',
+          postNumber: 3,
+          postTitle: `${currentMonth}월 네이버 글 ${meta.postsCount}건 자동 동기화 완주!`,
+          category: '일상',
+          nickname: maskedName
+        });
+      }
+    } catch (e) {
+      console.debug('Failed to record sync event:', e);
     }
   };
 
@@ -250,6 +287,7 @@ export default function App() {
         onResetData={handleResetData}
         onClearAllData={handleClearAllData}
         onOpenProofModal={() => setShowProofModal(true)}
+        onOpenNaverSyncModal={() => setShowNaverSyncModal(true)}
         activeTab={activeTab}
         onSelectTab={setActiveTab}
       />
@@ -325,6 +363,17 @@ export default function App() {
           year={currentYear}
           month={currentMonth}
           onClose={() => setShowProofModal(false)}
+        />
+      )}
+
+      {/* Naver Blog RSS 1-Click Auto Sync Modal */}
+      {showNaverSyncModal && (
+        <NaverSyncModal
+          currentChallengeData={challengeData}
+          currentYear={currentYear}
+          currentMonth={currentMonth}
+          onClose={() => setShowNaverSyncModal(false)}
+          onApplySync={handleApplyNaverSync}
         />
       )}
 

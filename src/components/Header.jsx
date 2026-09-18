@@ -1,5 +1,5 @@
 import React from 'react';
-import { Calendar as CalendarIcon, Trophy, Flame, Download, RefreshCw, Moon, Sun, Sparkles, Image as ImageIcon, RotateCcw, BookOpen, MessageSquarePlus } from 'lucide-react';
+import { Calendar as CalendarIcon, Trophy, Flame, Download, RefreshCw, Moon, Sun, Sparkles, Image as ImageIcon, RotateCcw, BookOpen, MessageSquarePlus, Zap } from 'lucide-react';
 import SplitFlapCounter from './SplitFlapCounter';
 
 export default function Header({ 
@@ -14,6 +14,7 @@ export default function Header({
   onResetData,
   onClearAllData,
   onOpenProofModal,
+  onOpenNaverSyncModal,
   activeTab,
   onSelectTab
 }) {
@@ -128,6 +129,17 @@ export default function Header({
             <Flame size={18} className={stats.streak > 0 ? "animate-flame" : ""} style={{ color: stats.streak > 0 ? '#FF5722' : 'var(--text-muted)' }} />
             <SplitFlapCounter value={stats.streak} label="일 연속 달성!" color={stats.streak > 0 ? '#FF7043' : 'var(--text-muted)'} />
           </div>
+
+          {/* Naver Blog RSS 1-Click Auto Sync Button */}
+          <button 
+            onClick={onOpenNaverSyncModal} 
+            className="btn btn-naver" 
+            title="네이버 블로그 RSS 연동 및 1클릭 자동 인증"
+            style={{ fontWeight: 700 }}
+          >
+            <Zap size={16} />
+            <span>네이버 자동 연동</span>
+          </button>
 
           {/* Proof Card Generator Button */}
           <button onClick={onOpenProofModal} className="btn btn-gold" title="네이버 블로그 인증 카드 생성">
