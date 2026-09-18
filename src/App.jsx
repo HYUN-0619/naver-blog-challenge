@@ -10,11 +10,13 @@ import AnalyticsSection from './components/AnalyticsSection';
 import TrophyGallery from './components/TrophyGallery';
 import BlogGuideSection from './components/BlogGuideSection';
 import FeedbackBoard from './components/FeedbackBoard';
+import GlobalActivityBanner from './components/GlobalActivityBanner';
 import PrivacyModal from './components/PrivacyModal';
 import TermsModal from './components/TermsModal';
 import WelcomeGuideModal from './components/WelcomeGuideModal';
 import Footer from './components/Footer';
 import { loadChallengeData, saveChallengeData, calculateStats, generateSampleData, CATEGORIES } from './utils/storage';
+import { recordChallengeEvent } from './utils/challenge';
 
 export default function App() {
   const today = new Date();
@@ -84,6 +86,31 @@ export default function App() {
     };
     setChallengeData(updated);
     saveChallengeData(updated);
+
+    // Record challenge event to Cloudflare D1 for global real-time stats
+    try {
+      const completedPosts = updatedPosts.filter(p => p.completed);
+      if (completedPosts.length >= 3) {
+        recordChallengeEvent({
+          eventType: 'day_finished',
+          postNumber: completedPosts.length,
+          postTitle: completedPosts[2]?.title || '오늘 3포 완주!',
+          category: completedPosts[2]?.category || '일상',
+          nickname: '익명의 러너'
+        });
+      } else if (completedPosts.length > 0) {
+        const last = completedPosts[completedPosts.length - 1];
+        recordChallengeEvent({
+          eventType: 'post_completed',
+          postNumber: completedPosts.length,
+          postTitle: last?.title || `${completedPosts.length}번째 글 발행`,
+          category: last?.category || '일상',
+          nickname: '익명의 러너'
+        });
+      }
+    } catch (e) {
+      console.debug('Failed to send challenge event:', e);
+    }
   };
 
   // Clear data handler (Clears all 12 months when on trophy tab, or current month when on dashboard tab)
@@ -184,6 +211,16 @@ export default function App() {
       spread: 90,
       origin: { y: 0.5 }
     });
+
+    try {
+      recordChallengeEvent({
+        eventType: 'day_finished',
+        postNumber: 3,
+        postTitle: `${currentMonth}월 일괄 완주!`,
+        category: '일상',
+        nickname: '마스터 러너'
+      });
+    } catch (e) {}
   };
 
   // Reset / Reload Sample Data
@@ -219,6 +256,9 @@ export default function App() {
 
       {activeTab === 'dashboard' ? (
         <>
+          {/* Global Challenger Real-time Activity Banner & Live Ticker */}
+          <GlobalActivityBanner />
+
           {/* Hero: Running Mascot Track Section */}
           <RunnerTrack
             stats={stats}

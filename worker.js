@@ -1,6 +1,7 @@
 import { onRequestGet as onVisitGet, onRequestPost as onVisitPost } from './functions/api/visit.js';
 import { onRequestGet as onFeedbackGet, onRequestPost as onFeedbackPost } from './functions/api/feedback.js';
 import { onRequestPost as onVotePost } from './functions/api/feedback/vote.js';
+import { onRequestGet as onChallengeGet, onRequestPost as onChallengePost } from './functions/api/challenge.js';
 
 export default {
   async fetch(request, env, ctx) {
@@ -13,6 +14,14 @@ export default {
         return onVisitPost(context);
       }
       return onVisitGet(context);
+    }
+
+    // Route /api/challenge
+    if (url.pathname === '/api/challenge') {
+      if (request.method === 'POST') {
+        return onChallengePost(context);
+      }
+      return onChallengeGet(context);
     }
 
     // Route /api/feedback/vote
