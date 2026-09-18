@@ -3,11 +3,34 @@ import { onRequestGet as onFeedbackGet, onRequestPost as onFeedbackPost } from '
 import { onRequestPost as onVotePost } from './functions/api/feedback/vote.js';
 import { onRequestGet as onChallengeGet, onRequestPost as onChallengePost } from './functions/api/challenge.js';
 import { onRequestGet as onNaverRssGet } from './functions/api/naver-rss.js';
+import { 
+  handleAdminAuth, 
+  handleAdminStats, 
+  handleAdminFeedbackUpdate, 
+  handleAdminFeedbackDelete 
+} from './functions/api/admin.js';
 
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
     const context = { request, env, ctx };
+
+    // Admin Routes
+    if (url.pathname === '/api/admin/auth' && request.method === 'POST') {
+      return handleAdminAuth(context);
+    }
+    if (url.pathname === '/api/admin/stats' && request.method === 'GET') {
+      return handleAdminStats(context);
+    }
+    if (url.pathname === '/api/admin/feedback') {
+      if (request.method === 'PATCH') {
+        return handleAdminFeedbackUpdate(context);
+      }
+      if (request.method === 'DELETE') {
+        return handleAdminFeedbackDelete(context);
+      }
+      return new Response('Method Not Allowed', { status: 405 });
+    }
 
     // Route /api/naver-rss
     if (url.pathname === '/api/naver-rss') {

@@ -12,6 +12,7 @@ import BlogGuideSection from './components/BlogGuideSection';
 import FeedbackBoard from './components/FeedbackBoard';
 import GlobalActivityBanner from './components/GlobalActivityBanner';
 import NaverSyncModal from './components/NaverSyncModal';
+import AdminDashboard from './components/AdminDashboard';
 import PrivacyModal from './components/PrivacyModal';
 import TermsModal from './components/TermsModal';
 import WelcomeGuideModal from './components/WelcomeGuideModal';
@@ -25,7 +26,19 @@ export default function App() {
   const [currentYear, setCurrentYear] = useState(today.getFullYear());
   const [currentMonth, setCurrentMonth] = useState(today.getMonth() + 1);
   const [theme, setTheme] = useState('dark');
-  const [activeTab, setActiveTab] = useState('dashboard'); // 'dashboard' | 'trophy' | 'guide' | 'feedback'
+  const [activeTab, setActiveTab] = useState(() => {
+    try {
+      if (typeof window !== 'undefined') {
+        const search = window.location.search || '';
+        const path = window.location.pathname || '';
+        const hash = window.location.hash || '';
+        if (search.includes('admin') || path.includes('/admin') || hash.includes('admin')) {
+          return 'admin';
+        }
+      }
+    } catch {}
+    return 'dashboard';
+  }); // 'dashboard' | 'trophy' | 'guide' | 'feedback' | 'admin'
 
   // Load Challenge Data
   const [challengeData, setChallengeData] = useState(() => {
@@ -292,7 +305,10 @@ export default function App() {
         onSelectTab={setActiveTab}
       />
 
-      {activeTab === 'dashboard' ? (
+      {activeTab === 'admin' ? (
+        /* Secret Admin Console Tab */
+        <AdminDashboard onExitAdmin={() => setActiveTab('dashboard')} />
+      ) : activeTab === 'dashboard' ? (
         <>
           {/* Global Challenger Real-time Activity Banner & Live Ticker */}
           <GlobalActivityBanner />
@@ -398,6 +414,7 @@ export default function App() {
         onOpenPrivacy={() => setShowPrivacyModal(true)}
         onOpenTerms={() => setShowTermsModal(true)}
         onOpenWelcome={() => setShowWelcomeModal(true)}
+        onOpenAdmin={() => setActiveTab('admin')}
       />
 
     </div>

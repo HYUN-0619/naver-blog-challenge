@@ -2,7 +2,7 @@ import React from 'react';
 import { ShieldCheck, Info, Mail, Heart, Sparkles, HelpCircle } from 'lucide-react';
 import AdContainer from './AdContainer';
 
-export default function Footer({ onOpenPrivacy, onOpenTerms, onOpenWelcome, currentYear }) {
+export default function Footer({ onOpenPrivacy, onOpenTerms, onOpenWelcome, onOpenAdmin, currentYear }) {
   return (
     <footer style={{
       marginTop: '60px',
@@ -113,6 +113,23 @@ export default function Footer({ onOpenPrivacy, onOpenTerms, onOpenWelcome, curr
       <div style={{ textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.8rem', borderTop: '1px dashed var(--border-color)', paddingTop: '16px' }}>
         <p>
           &copy; {currentYear} 네이버 블로그 1일 3포 챌린지 캘린더 • All rights reserved. 본 서비스는 네이버 공식 서비스가 아닌 독립적인 블로그 챌린지 웹 앱입니다.
+          {' '}
+          <button
+            onClick={onOpenAdmin}
+            style={{
+              background: 'none',
+              border: 'none',
+              color: 'var(--text-muted)',
+              cursor: 'pointer',
+              fontSize: '0.75rem',
+              opacity: 0.6,
+              marginLeft: '8px',
+              textDecoration: 'underline'
+            }}
+            title="운영자 전용 관리 콘솔"
+          >
+            🔒 관리자
+          </button>
         </p>
       </div>
 
