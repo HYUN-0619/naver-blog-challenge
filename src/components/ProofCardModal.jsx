@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import html2canvas from 'html2canvas';
-import { Download, Sparkles, X, Flame, Trophy, CheckCircle2 } from 'lucide-react';
+import { Download, Sparkles, X, Flame, Trophy, CheckCircle2, Copy } from 'lucide-react';
+import { generateVerificationTemplates, copyFormattedVerification } from '../utils/formatTemplate';
 
 export default function ProofCardModal({ stats, year, month, onClose }) {
   const cardRef = useRef(null);
@@ -29,6 +30,27 @@ export default function ProofCardModal({ stats, year, month, onClose }) {
       alert("이미지 생성 중 오류가 발생했습니다.");
     } finally {
       setDownloading(false);
+    }
+  };
+
+  const [copiedFormat, setCopiedFormat] = useState(false);
+
+  // Copy Verification Blog Post Format to Clipboard
+  const handleCopyBlogFormat = async () => {
+    try {
+      const { text, html } = generateVerificationTemplates({
+        dateStr: todayStr,
+        posts: [],
+        streak: stats?.streak || 0,
+        progressPercent: stats?.progressPercent,
+        totalCompleted: stats?.totalPostsCompleted
+      });
+      await copyFormattedVerification({ text, html });
+      setCopiedFormat(true);
+      setTimeout(() => setCopiedFormat(false), 3000);
+    } catch (e) {
+      console.error(e);
+      alert('서식 복사 중 오류가 발생했습니다.');
     }
   };
 
@@ -133,15 +155,37 @@ export default function ProofCardModal({ stats, year, month, onClose }) {
         </div>
 
         {/* Action Button */}
-        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
+        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', flexWrap: 'wrap' }}>
           <button onClick={onClose} className="btn btn-secondary">
             닫기
+          </button>
+          <button
+            onClick={handleCopyBlogFormat}
+            className="btn btn-secondary"
+            style={{
+              color: copiedFormat ? '#2ee677' : 'inherit',
+              borderColor: copiedFormat ? '#2ee677' : 'var(--border-color)',
+              fontWeight: 700
+            }}
+            title="네이버 스마트에디터에 바로 붙여넣는 인증 포스팅 서식 복사"
+          >
+            {copiedFormat ? (
+              <>
+                <CheckCircle2 size={16} color="#2ee677" />
+                <span>서식 복사 완료!</span>
+              </>
+            ) : (
+              <>
+                <Copy size={16} />
+                <span>📋 블로그 본문 서식 복사</span>
+              </>
+            )}
           </button>
           <button 
             onClick={handleDownloadImage} 
             disabled={downloading}
             className="btn btn-naver"
-            style={{ padding: '10px 24px' }}
+            style={{ padding: '10px 20px', fontWeight: 700 }}
           >
             <Download size={16} />
             <span>{downloading ? '이미지 생성 중...' : '인증샷 PNG 다운로드'}</span>

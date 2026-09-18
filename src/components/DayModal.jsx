@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
-import { X, CheckCircle, Flame, Link as LinkIcon, Image as ImageIcon, Sparkles, Zap, Trash2, RotateCcw, Plus, RefreshCw } from 'lucide-react';
+import { X, CheckCircle, Flame, Link as LinkIcon, Image as ImageIcon, Sparkles, Zap, Trash2, RotateCcw, Plus, RefreshCw, Copy } from 'lucide-react';
 import { CATEGORIES } from '../utils/storage';
 import { getSavedNaverBlogId, saveNaverBlogId, fetchNaverBlogRss } from '../utils/naverRss';
+import { generateVerificationTemplates, copyFormattedVerification } from '../utils/formatTemplate';
 
 export default function DayModal({ dateKey, dayData, onClose, onSave }) {
   const [posts, setPosts] = useState(
@@ -159,6 +160,25 @@ export default function DayModal({ dateKey, dayData, onClose, onSave }) {
     }
   };
 
+  const [copiedFormat, setCopiedFormat] = useState(false);
+
+  // Copy Formatted Verification Post to Clipboard
+  const handleCopyVerificationFormat = async () => {
+    try {
+      const { text, html } = generateVerificationTemplates({
+        dateStr: formattedDate,
+        posts
+      });
+      await copyFormattedVerification({ text, html });
+      setCopiedFormat(true);
+      triggerFireworks();
+      setTimeout(() => setCopiedFormat(false), 3000);
+    } catch (e) {
+      console.error(e);
+      alert('서식 복사 중 오류가 발생했습니다.');
+    }
+  };
+
   // Image Upload Handler (Convert file to base64 for local display & storage)
   const handleImageUpload = (idx, event) => {
     const file = event.target.files?.[0];
@@ -226,6 +246,31 @@ export default function DayModal({ dateKey, dayData, onClose, onSave }) {
               ) : (
                 <>
                   <Zap size={14} /> 네이버에서 불러오기
+                </>
+              )}
+            </button>
+            <button
+              type="button"
+              onClick={handleCopyVerificationFormat}
+              className="btn btn-secondary"
+              style={{
+                padding: '6px 14px',
+                fontSize: '0.85rem',
+                fontWeight: 700,
+                color: copiedFormat ? '#2ee677' : 'inherit',
+                borderColor: copiedFormat ? '#2ee677' : 'var(--border-color)',
+                boxShadow: copiedFormat ? '0 0 12px rgba(46, 230, 119, 0.3)' : 'none',
+                transition: 'all 0.2s'
+              }}
+              title="오늘 1일 3포 인증 서식을 클립보드에 복사 (블로그/단톡방용)"
+            >
+              {copiedFormat ? (
+                <>
+                  <CheckCircle size={14} style={{ color: '#2ee677' }} /> 서식 복사 완료!
+                </>
+              ) : (
+                <>
+                  <Copy size={14} /> 📋 3포 인증 서식 복사
                 </>
               )}
             </button>
