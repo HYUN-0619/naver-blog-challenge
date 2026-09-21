@@ -1,5 +1,5 @@
 import React from 'react';
-import { Calendar as CalendarIcon, Trophy, Flame, Download, RefreshCw, Moon, Sun, Sparkles, Image as ImageIcon, RotateCcw, BookOpen, MessageSquarePlus, Zap } from 'lucide-react';
+import { Calendar as CalendarIcon, Trophy, Flame, Download, RefreshCw, Moon, Sun, Sparkles, Image as ImageIcon, RotateCcw, BookOpen, MessageSquarePlus, Zap, Cloud } from 'lucide-react';
 import SplitFlapCounter from './SplitFlapCounter';
 
 export default function Header({ 
@@ -15,6 +15,8 @@ export default function Header({
   onClearAllData,
   onOpenProofModal,
   onOpenNaverSyncModal,
+  onOpenSyncModal,
+  savedBlogId,
   activeTab,
   onSelectTab
 }) {
@@ -139,6 +141,25 @@ export default function Header({
           >
             <Zap size={16} />
             <span>네이버 자동 연동</span>
+          </button>
+
+          {/* Multi-Device Cloud Sync Button */}
+          <button
+            onClick={onOpenSyncModal}
+            className="btn btn-secondary"
+            title="데스크탑 & 모바일 실시간 클라우드 연동"
+            style={{
+              fontWeight: 700,
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              border: savedBlogId ? '1px solid rgba(33, 150, 243, 0.5)' : '1px solid var(--border-color)',
+              background: savedBlogId ? 'rgba(33, 150, 243, 0.12)' : 'rgba(255, 255, 255, 0.05)',
+              color: savedBlogId ? '#2196F3' : 'var(--text-sub)'
+            }}
+          >
+            <Cloud size={16} />
+            <span>{savedBlogId ? `${savedBlogId} 기기연동` : '기기 연동'}</span>
           </button>
 
           {/* Proof Card Generator Button */}

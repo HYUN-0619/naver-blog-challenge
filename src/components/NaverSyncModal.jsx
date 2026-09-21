@@ -14,7 +14,8 @@ export default function NaverSyncModal({
   currentChallengeData, 
   currentYear, 
   currentMonth, 
-  onApplySync 
+  onApplySync,
+  onBlogIdChanged
 }) {
   const [blogIdInput, setBlogIdInput] = useState('');
   const [loading, setLoading] = useState(false);
@@ -56,6 +57,9 @@ export default function NaverSyncModal({
     if (result.success) {
       setRssData(result);
       saveNaverBlogId(targetId);
+      if (onBlogIdChanged) {
+        onBlogIdChanged(targetId);
+      }
     } else {
       setError(result.error || '네이버 블로그 글을 불러오는데 실패했습니다.');
       setRssData(null);

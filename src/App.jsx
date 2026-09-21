@@ -12,6 +12,7 @@ import BlogGuideSection from './components/BlogGuideSection';
 import FeedbackBoard from './components/FeedbackBoard';
 import GlobalActivityBanner from './components/GlobalActivityBanner';
 import NaverSyncModal from './components/NaverSyncModal';
+import SyncSettingsModal from './components/SyncSettingsModal';
 import AdminDashboard from './components/AdminDashboard';
 import PrivacyModal from './components/PrivacyModal';
 import TermsModal from './components/TermsModal';
@@ -20,6 +21,7 @@ import Footer from './components/Footer';
 import { loadChallengeData, saveChallengeData, calculateStats, generateSampleData, CATEGORIES } from './utils/storage';
 import { recordChallengeEvent } from './utils/challenge';
 import { getSavedNaverBlogId } from './utils/naverRss';
+import { fetchCloudCalendar, pushCloudCalendar, mergeCalendars } from './utils/sync';
 
 export default function App() {
   const today = new Date();
@@ -45,9 +47,11 @@ export default function App() {
     return loadChallengeData(today.getFullYear(), today.getMonth() + 1);
   });
 
+  const [savedBlogId, setSavedBlogId] = useState(() => getSavedNaverBlogId() || '');
   const [selectedDateKey, setSelectedDateKey] = useState(null);
   const [showProofModal, setShowProofModal] = useState(false);
   const [showNaverSyncModal, setShowNaverSyncModal] = useState(false);
+  const [showSyncModal, setShowSyncModal] = useState(false);
   const [showPrivacyModal, setShowPrivacyModal] = useState(false);
   const [showTermsModal, setShowTermsModal] = useState(false);
   const [showWelcomeModal, setShowWelcomeModal] = useState(() => {
@@ -55,6 +59,23 @@ export default function App() {
     const hideDate = localStorage.getItem('po3_hide_welcome_date');
     return hideDate !== todayStr;
   });
+
+  // Background auto-pull from D1 cloud on mount
+  useEffect(() => {
+    const blogId = getSavedNaverBlogId();
+    if (blogId) {
+      setSavedBlogId(blogId);
+      fetchCloudCalendar(blogId).then(res => {
+        if (res.success && res.exists && res.verified && res.calendarData) {
+          setChallengeData(prev => {
+            const merged = mergeCalendars(prev, res.calendarData);
+            saveChallengeData(merged);
+            return merged;
+          });
+        }
+      }).catch(console.error);
+    }
+  }, []);
 
   // Sync theme attribute to HTML
   useEffect(() => {
@@ -91,6 +112,14 @@ export default function App() {
     setCurrentMonth(now.getMonth() + 1);
   };
 
+  // Background cloud sync helper
+  const syncToCloud = (latestData, targetBlogId) => {
+    const id = targetBlogId || savedBlogId || getSavedNaverBlogId();
+    if (id) {
+      pushCloudCalendar(id, latestData).catch(e => console.debug('Sync to cloud error:', e));
+    }
+  };
+
   // Day Save Handler
   const handleSaveDay = (dateKey, updatedPosts) => {
     const updated = {
@@ -102,6 +131,7 @@ export default function App() {
     };
     setChallengeData(updated);
     saveChallengeData(updated);
+    syncToCloud(updated);
 
     // Record challenge event to Cloudflare D1 for global real-time stats
     try {
@@ -133,6 +163,7 @@ export default function App() {
   const handleApplyNaverSync = (updated, meta) => {
     setChallengeData(updated);
     saveChallengeData(updated);
+    syncToCloud(updated);
 
     try {
       const savedId = getSavedNaverBlogId() || '네이버러너';
@@ -255,6 +286,7 @@ export default function App() {
     const updated = { ...challengeData, ...fullData };
     setChallengeData(updated);
     saveChallengeData(updated);
+    syncToCloud(updated);
 
     confetti({
       particleCount: 150,
@@ -301,6 +333,8 @@ export default function App() {
         onClearAllData={handleClearAllData}
         onOpenProofModal={() => setShowProofModal(true)}
         onOpenNaverSyncModal={() => setShowNaverSyncModal(true)}
+        onOpenSyncModal={() => setShowSyncModal(true)}
+        savedBlogId={savedBlogId}
         activeTab={activeTab}
         onSelectTab={setActiveTab}
       />
@@ -390,6 +424,21 @@ export default function App() {
           currentMonth={currentMonth}
           onClose={() => setShowNaverSyncModal(false)}
           onApplySync={handleApplyNaverSync}
+          onBlogIdChanged={(newId) => setSavedBlogId(newId)}
+        />
+      )}
+
+      {/* Multi-Device Cloud Sync Modal */}
+      {showSyncModal && (
+        <SyncSettingsModal
+          blogId={savedBlogId}
+          onUpdateBlogId={(newId) => setSavedBlogId(newId)}
+          challengeData={challengeData}
+          onClose={() => setShowSyncModal(false)}
+          onApplyMergedData={(merged) => {
+            setChallengeData(merged);
+            saveChallengeData(merged);
+          }}
         />
       )}
 

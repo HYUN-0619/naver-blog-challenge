@@ -9,11 +9,30 @@ import {
   handleAdminFeedbackUpdate, 
   handleAdminFeedbackDelete 
 } from './functions/api/admin.js';
+import { 
+  onRequestGet as onSyncGet, 
+  onRequestPost as onSyncPost, 
+  onPinPost 
+} from './functions/api/sync.js';
 
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
     const context = { request, env, ctx };
+
+    // Sync Routes (/api/sync, /api/sync/pin)
+    if (url.pathname === '/api/sync/pin' && request.method === 'POST') {
+      return onPinPost(context);
+    }
+    if (url.pathname === '/api/sync') {
+      if (request.method === 'GET') {
+        return onSyncGet(context);
+      }
+      if (request.method === 'POST') {
+        return onSyncPost(context);
+      }
+      return new Response('Method Not Allowed', { status: 405 });
+    }
 
     // Admin Routes
     if (url.pathname === '/api/admin/auth' && request.method === 'POST') {
