@@ -1,6 +1,5 @@
 import React from 'react';
 import { ShieldCheck, Info, Mail, Heart, Sparkles, HelpCircle } from 'lucide-react';
-import AdContainer from './AdContainer';
 
 export default function Footer({ onOpenPrivacy, onOpenTerms, onOpenWelcome, onOpenAdmin, currentYear }) {
   return (
@@ -11,10 +10,6 @@ export default function Footer({ onOpenPrivacy, onOpenTerms, onOpenWelcome, onOp
       color: 'var(--text-sub)',
       fontSize: '0.88rem'
     }}>
-      
-      {/* Bottom Ad Placement Container */}
-      <AdContainer label="스폰서 파트너" slot="footer-bottom" />
-
       <div style={{
         display: 'flex',
         alignItems: 'center',

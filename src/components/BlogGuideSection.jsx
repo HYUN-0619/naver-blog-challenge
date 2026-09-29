@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { BookOpen, Clock, Target, Lightbulb, Sparkles, HelpCircle, ChevronDown, ChevronUp, CheckCircle, ShieldCheck } from 'lucide-react';
-import AdContainer from './AdContainer';
+
 
 export default function BlogGuideSection() {
   const [openFaq, setOpenFaq] = useState(null);
@@ -92,10 +92,6 @@ DIA+는 개별 게시글이 방문자에게 얼마나 유용한 정보를 주는
 
   return (
     <div style={{ marginTop: '40px' }}>
-      
-      {/* Ad Placement Container - Top of Guide */}
-      <AdContainer label="스폰서 정보" slot="guide-top" />
-
       {/* Guide Header Banner */}
       <div className="glass-panel" style={{ padding: '28px', marginBottom: '28px', background: 'linear-gradient(135deg, rgba(3,199,90,0.12) 0%, rgba(0,208,255,0.08) 100%)', border: '1px solid rgba(3,199,90,0.3)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}>
@@ -143,9 +139,6 @@ DIA+는 개별 게시글이 방문자에게 얼마나 유용한 정보를 주는
           );
         })}
       </div>
-
-      {/* Ad Placement Container - Middle */}
-      <AdContainer label="추천 정보" slot="guide-mid" />
 
       {/* FAQ Section */}
       <div className="glass-panel" style={{ padding: '28px', marginBottom: '32px' }}>
