@@ -12,6 +12,7 @@ export default function BlogGuideSection() {
       icon: Clock,
       title: '네이버 블로그 1일 3포 성공하는 3가지 골든타임 시간대',
       summary: '블로그 이웃과 방문자가 가장 활발하게 활동하는 시간대에 3개의 글을 배치하여 조회수를 극대화하는 노하우를 소개합니다.',
+      link: '/guide/blog-golden-time',
       content: `
 ### 1. 오전 08:00 ~ 09:00 (출근길 및 아침 루틴)
 직장인 및 학생들의 출근/등교 시간대는 모바일 블로그 방문량이 급증하는 첫 번째 피크 타임입니다. 
@@ -35,6 +36,7 @@ export default function BlogGuideSection() {
       icon: Target,
       title: '네이버 검색 알고리즘 (C-Rank & DIA+) 최신 반영 가이드',
       summary: '네이버 상위 노출을 결정하는 C-Rank(블로그 전문성)와 DIA+(문서 자체의 유익성) 알고리즘을 이해하고 글을 쓰는 방법입니다.',
+      link: '/guide/c-rank-dia-algorithm',
       content: `
 ### C-Rank (Creator Rank) 핵심 요약
 C-Rank는 특정 주제에 대한 블로그의 전문성과 인지도, 꾸준함을 평가합니다.
@@ -54,6 +56,7 @@ DIA+는 개별 게시글이 방문자에게 얼마나 유용한 정보를 주는
       icon: Lightbulb,
       title: '1일 3포 글감이 고갈되었을 때 즉시 활용 가능한 10가지 주제',
       summary: '매일 3개의 글을 쓸 때 주제 선정에 어려움을 겪는 블로거들을 위한 무한 소재 생성 포맷입니다.',
+      link: '/guide/blog-topic-ideas',
       content: `
 매일 3포스팅을 지속하다 보면 '무슨 글을 써야 하지?'라는 소재 고갈에 부딪히기 쉽습니다. 아래 10가지 포맷을 순환하며 활용해 보세요:
 
@@ -67,6 +70,34 @@ DIA+는 개별 게시글이 방문자에게 얼마나 유용한 정보를 주는
 8. **단골 맛집/카페 재방문기**: 위치, 주차, 메뉴 꿀팁을 포함한 상세 정보
 9. **월간/주간 목표 체크리스트**: 1일 3포 챌린지 달성 현황 및 회고 글
 10. **초보자를 위한 가이드북**: '처음 시작하는 사람을 위한 A to Z Step 1' 글 쓰기
+      `
+    },
+    {
+      id: 4,
+      tag: '수익화 노하우',
+      icon: CheckCircle,
+      title: '네이버 애드포스트 30일 만에 첫 승인받는 3대 조건',
+      summary: '포스팅 50개, 일평균 방문자수 100명, 개설일 90일 요건을 1일 3포로 가장 빠르게 충족하고 승인받는 실전 팁입니다.',
+      link: '/guide/adpost-approval-guide',
+      content: `
+### 애드포스트 승인 3대 핵심 지표
+1. **블로그 개설 90일 이상**: 블로그를 처음 생성한 날로부터 90일이 지나야 자격이 주어집니다.
+2. **최근 30일 포스팅 50개 이상**: 1일 3포를 17일만 유지하면 단숨에 기준을 통과합니다.
+3. **일평균 방문자수 100명 이상**: 유효 검색 키워드를 타겟팅하여 방문자를 꾸준히 확보하세요.
+      `
+    },
+    {
+      id: 5,
+      tag: '검색 노출 SEO',
+      icon: Sparkles,
+      title: '스마트블록 상위노출 키워드 발굴 및 본문 배치 노하우',
+      summary: '신규 블로그도 에어서치(AiRSEARCH) 스마트블록에 진입하는 황금 롱테일 키워드 공식과 형태소 배치 비법입니다.',
+      link: '/guide/keyword-seo-strategy',
+      content: `
+### 스마트블록 진입 핵심 공식
+1. **롱테일 키워드 발굴**: 대형 키워드 대신 단어가 3개 이상 결합된 틈새 연관 검색어를 노리세요.
+2. **제목의 맨 앞 배치**: 타겟 핵심 키워드를 제목 가장 앞자리에 배치하여 가중치를 높이세요.
+3. **자연스러운 본문 반복**: 1,500자 기준 4~6회 자연스럽게 녹여내고 유의어를 적절히 혼합하세요.
       `
     }
   ];
@@ -135,6 +166,25 @@ DIA+는 개별 게시글이 방문자에게 얼마나 유용한 정보를 주는
                   {g.content.trim()}
                 </div>
               </div>
+
+              {g.link && (
+                <div style={{ marginTop: '16px', paddingTop: '12px', borderTop: '1px dashed var(--border-color)', display: 'flex', justifyContent: 'flex-end' }}>
+                  <a
+                    href={g.link}
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      fontSize: '0.84rem',
+                      color: 'var(--naver-green)',
+                      textDecoration: 'none',
+                      fontWeight: 600
+                    }}
+                  >
+                    전문 가이드 원문 읽기 ➔
+                  </a>
+                </div>
+              )}
             </div>
           );
         })}

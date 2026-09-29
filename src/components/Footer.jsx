@@ -33,13 +33,11 @@ export default function Footer({ onOpenPrivacy, onOpenTerms, onOpenWelcome, onOp
 
         {/* Right Policy Links */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
-          <button
-            onClick={onOpenWelcome}
+          <a
+            href="/about"
             style={{
-              background: 'none',
-              border: 'none',
               color: 'var(--text-main)',
-              cursor: 'pointer',
+              textDecoration: 'none',
               display: 'flex',
               alignItems: 'center',
               gap: '6px',
@@ -48,16 +46,14 @@ export default function Footer({ onOpenPrivacy, onOpenTerms, onOpenWelcome, onOp
             }}
           >
             <HelpCircle size={16} style={{ color: 'var(--naver-green-light)' }} />
-            이용 안내 가이드 🚀
-          </button>
+            서비스 소개
+          </a>
 
-          <button
-            onClick={onOpenPrivacy}
+          <a
+            href="/privacy"
             style={{
-              background: 'none',
-              border: 'none',
               color: 'var(--text-main)',
-              cursor: 'pointer',
+              textDecoration: 'none',
               display: 'flex',
               alignItems: 'center',
               gap: '6px',
@@ -66,16 +62,14 @@ export default function Footer({ onOpenPrivacy, onOpenTerms, onOpenWelcome, onOp
             }}
           >
             <ShieldCheck size={16} style={{ color: 'var(--naver-green)' }} />
-            개인정보처리방침 (Privacy Policy)
-          </button>
+            개인정보처리방침
+          </a>
 
-          <button
-            onClick={onOpenTerms}
+          <a
+            href="/terms"
             style={{
-              background: 'none',
-              border: 'none',
               color: 'var(--text-main)',
-              cursor: 'pointer',
+              textDecoration: 'none',
               display: 'flex',
               alignItems: 'center',
               gap: '6px',
@@ -84,11 +78,11 @@ export default function Footer({ onOpenPrivacy, onOpenTerms, onOpenWelcome, onOp
             }}
           >
             <Info size={16} style={{ color: 'var(--accent-gold)' }} />
-            이용약관 및 소개
-          </button>
+            이용약관
+          </a>
 
           <a
-            href="mailto:moonnb@gmail.com"
+            href="mailto:admin@po3.site"
             style={{
               color: 'var(--text-sub)',
               textDecoration: 'none',
@@ -101,6 +95,28 @@ export default function Footer({ onOpenPrivacy, onOpenTerms, onOpenWelcome, onOp
             <Mail size={16} />
             제휴/문의
           </a>
+        </div>
+      </div>
+
+      {/* Guide Links Directory for SEO & Crawlers */}
+      <div style={{
+        margin: '16px 0 20px',
+        padding: '16px',
+        background: 'rgba(0,0,0,0.2)',
+        borderRadius: 'var(--radius-md)',
+        border: '1px solid var(--border-color)',
+        fontSize: '0.82rem'
+      }}>
+        <div style={{ fontWeight: 700, color: 'var(--text-main)', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <Sparkles size={14} style={{ color: 'var(--naver-green)' }} />
+          네이버 블로그 1일 3포 전문 가이드 컬렉션
+        </div>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px 20px' }}>
+          <a href="/guide/c-rank-dia-algorithm" style={{ color: 'var(--text-sub)' }}>• C-Rank & D.I.A 알고리즘 완벽 분석</a>
+          <a href="/guide/blog-golden-time" style={{ color: 'var(--text-sub)' }}>• 1일 3포 골든타임 시간표 공략</a>
+          <a href="/guide/adpost-approval-guide" style={{ color: 'var(--text-sub)' }}>• 애드포스트 30일 첫 승인 가이드</a>
+          <a href="/guide/keyword-seo-strategy" style={{ color: 'var(--text-sub)' }}>• 스마트블록 상위노출 키워드 전략</a>
+          <a href="/guide/blog-topic-ideas" style={{ color: 'var(--text-sub)' }}>• 글감 고민 끝내는 1일 3포 주제 30선</a>
         </div>
       </div>
 

@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>네이버 블로그 C-Rank & D.I.A 로직 완벽 분석 및 상위노출 가이드 - po3</title>
+    <meta name="description" content="네이버 블로그 검색 상위노출을 결정짓는 핵심 알고리즘 C-Rank(출처 신뢰도)와 D.I.A(문서 선호도)의 작동 원리와 1일 3포 실전 적용 노하우를 상세히 정리해 드립니다." />
+    <link rel="icon" type="image/svg+xml" href="/mascot.png" />
+    <link rel="stylesheet" href="/guide/guide.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="canonical" href="https://po3.site/guide/c-rank-dia-algorithm" />
+    
+    <!-- Google Analytics 4 (GA4) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KGVH98VLLE"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-KGVH98VLLE');
+    </script>
+  </head>
+  <body>
+    <div class="guide-container">
+      <nav class="guide-header-nav">
+        <a href="/" class="brand-link">
+          <img src="/mascot.png" alt="po3 마스코트" />
+          <span>po3 1일 3포 챌린지</span>
+        </a>
+        <a href="/" class="back-btn">← 대시보드로 돌아가기</a>
+      </nav>
+
+      <article class="article-card">
+        <div class="meta-badge-wrap">
+          <span class="meta-badge badge-green">네이버 검색 알고리즘</span>
+          <span class="meta-badge badge-blue">블로그 상위노출</span>
+        </div>
+
+        <h1 class="article-title">네이버 블로그 C-Rank & D.I.A 로직 완벽 분석 및 상위노출 전략</h1>
+        <p class="article-desc">
+          네이버 검색 포털의 핵심 랭킹 시스템인 C-Rank(출처 신뢰도)와 D.I.A(문서 적합도 및 경험 분석)의 원리를 이해하고, 1일 3포 챌린지를 통해 블로그 지수를 빠르게 높이는 실전 공식을 공개합니다.
+        </p>
+
+        <div class="toc-card">
+          <div class="toc-title">📌 핵심 목차</div>
+          <ul class="toc-list">
+            <li><a href="#section-1">1. C-Rank(Creator Rank)의 정의와 3대 평가 요소</a></li>
+            <li><a href="#section-2">2. D.I.A 및 D.I.A+ 로직이 평가하는 문서 경험 점수</a></li>
+            <li><a href="#section-3">3. 1일 3포스팅이 C-Rank 점수를 극대화하는 메커니즘</a></li>
+            <li><a href="#section-4">4. 스마트에디터 작성 시 반드시 지켜야 할 체크리스트</a></li>
+            <li><a href="#section-5">5. 검색 누락과 저품질 페널티를 피하는 핵심 팁</a></li>
+          </ul>
+        </div>
+
+        <div class="article-body">
+          <h2 id="section-1">1. C-Rank(Creator Rank)의 정의와 3대 평가 요소</h2>
+          <p>
+            네이버의 <strong>C-Rank 알고리즘</strong>은 문서 자체의 키워드 빈도뿐만 아니라, 해당 문서를 발행한 <em>'출처(Creator)의 신뢰도와 전문성'</em>을 종합적으로 평가하는 랭킹 모델입니다. 블로그가 특정 관심사 및 주제에 대해 얼마나 오랫동안, 꾸준하고 깊이 있는 글을 작성해왔는지를 측정합니다.
+          </p>
+          <p>C-Rank 점수를 결정짓는 3대 핵심 기둥은 다음과 같습니다:</p>
+          <ul>
+            <li><strong>주제별 집중도(Context)</strong>: 블로그가 다루는 주력 카테고리의 일관성입니다. 잡블로그 형태보다 한두 가지 특정 주제(예: IT/테크, 맛집/여행, 재테크, 뷰티 등)에 집중할수록 해당 주제 쿼리에 대한 신뢰도 점수가 가산됩니다.</li>
+            <li><strong>문서 품질 및 반응도(Content & Reaction)</strong>: 발행된 글에 독자들이 남기는 댓글, 공감(좋아요), 스크랩, 그리고 가장 중요한 <strong>'체류시간(Duration Time)'</strong>입니다. 사용자가 글을 2분 이상 정독할 경우 네이버 봇은 고품질 문서로 판별합니다.</li>
+            <li><strong>창작 연쇄 활동성(Chain)</strong>: 최근 포스팅 발행 빈도와 정기적인 업데이트 주기입니다. 오랫동안 방치된 블로그보다 매일 규칙적으로 양질의 글을 발행하는 블로그의 C-Rank 지수가 월등히 빠르게 상승합니다.</li>
+          </ul>
+
+          <div class="callout-box">
+            💡 <strong>전문가 팁</strong>: 1일 3포를 진행할 때도 무작위 3개 카테고리를 나열하기보다는, '메인 전문 주제 2개 + 라이프/일상 후기 1개'와 같이 주제 일관성을 유지하는 것이 C-Rank 강화에 훨씬 유리합니다.
+          </div>
+
+          <h2 id="section-2">2. D.I.A 및 D.I.A+ 로직이 평가하는 문서 경험 점수</h2>
+          <p>
+            C-Rank가 '블로그 자체의 신뢰도'를 본다면, <strong>D.I.A(Deep Intent Analysis)</strong> 모델은 신규 블로그라도 문서 내용이 우수하고 실제 사용자의 질문 의도를 정확히 해결했다면 상위노출 기회를 주는 문서 단위 알고리즘입니다.
+          </p>
+          <p>D.I.A+ 모델이 가산점을 부여하는 주요 항목은 다음과 같습니다:</p>
+          <ol>
+            <li><strong>직접 경험 정보(Experience)</strong>: 본인이 직접 촬영한 고화질 사진(EXIF 메타데이터 보존), 직접 겪은 후기 및 구체적인 상황 묘사. 복사 붙여넣기형 단순 정보 나열은 가차 없이 감점됩니다.</li>
+            <li><strong>독창적 정보(Originality)</strong>: 다른 블로그와 차별화된 가격 정보, 찾아가는 길의 상세 팁, 주의해야 할 단점 등 실질적인 솔루션을 담아야 합니다.</li>
+            <li><strong>자연스러운 어휘와 문장 구조</strong>: 동일 키워드를 기계적으로 반복(과도한 키워드 스터핑)하기보다는, 연관 검색어와 유의어를 문맥에 맞게 매끄럽게 서술하는 것이 중요합니다.</li>
+          </ol>
+
+          <h2 id="section-3">3. 1일 3포스팅이 C-Rank 점수를 극대화하는 메커니즘</h2>
+          <p>
+            새로 시작한 블로그나 지수가 정체된 블로그가 상위노출 단계로 도약하기 위해 가장 확실한 방법은 <strong>'단기간 데이터 집적'</strong>입니다.
+          </p>
+          <p>
+            1일 1포스팅을 하는 블로거가 한 달 동안 30개의 문서를 쌓을 때, <strong>1일 3포스팅 챌린저</strong>는 단 한 달 만에 90개의 문서를 검색 인덱스에 공급합니다. 이는 네이버 검색 봇의 크롤링 방문 빈도를 최대 5배까지 증가시키며, 검색 유입 키워드의 그물망(롱테일 키워드)을 폭발적으로 넓혀 블로그의 전체 트래픽을 견인합니다.
+          </p>
+
+          <h2 id="section-4">4. 스마트에디터 작성 시 반드시 지켜야 할 체크리스트</h2>
+          <ul>
+            <li>✅ <strong>제목 글자 수</strong>: 25~35자 내외로 작성하며, 타겟 메인 키워드를 앞부분에 자연스럽게 배치합니다.</li>
+            <li>✅ <strong>본문 텍스트 분량</strong>: 공백 제외 최소 1,200자 이상, 권장 1,800자~2,500자를 유지하여 충분한 독자 체류시간을 확보합니다.</li>
+            <li>✅ <strong>이미지 배치</strong>: 본인이 직접 찍은 고해상도 사진 5장~10장 이상을 본문 흐름에 맞추어 단락마다 균형 있게 삽입합니다.</li>
+            <li>✅ <strong>소제목 구분</strong>: 인용구(따옴표) 또는 구분선을 활용해 문단을 3~4개의 챕터로 나누어 모바일 가독성을 극대화합니다.</li>
+          </ul>
+
+          <h2 id="section-5">5. 검색 누락과 저품질 페널티를 피하는 핵심 팁</h2>
+          <p>
+            1일 3포를 진행할 때 가장 주의해야 할 것은 '복사-붙여넣기'와 '외부 링크의 무분별한 남발'입니다. 특히 제휴 마케팅 링크나 쿠팡 파트너스 링크를 모든 글에 반복 기재할 경우 네이버의 스팸 필터에 감지되어 최신순 누락 또는 영구 저품질의 원인이 될 수 있습니다.
+          </p>
+          <p>
+            글을 발행한 후 30분~2시간 뒤에 네이버 검색창에 <code>"본문 특정 문장"</code>을 큰따옴표로 검색하여 정상적으로 색인되고 있는지 확인하는 습관을 들이세요.
+          </p>
+        </div>
+      </article>
+
+      <section class="related-section">
+        <h3 class="related-title">📖 함께 읽으면 좋은 가이드</h3>
+        <div class="related-grid">
+          <a href="/guide/blog-golden-time" class="related-card">
+            <h4>1일 3포 시간대별 골든타임 공략법 ⏰</h4>
+            <p>직장인 출퇴근, 점심시간 유입을 독점하는 최적의 3회 포스팅 발행 전략</p>
+          </a>
+          <a href="/guide/adpost-approval-guide" class="related-card">
+            <h4>애드포스트 30일 만에 첫 승인받기 💰</h4>
+            <p>1일 3포 완주 후 블로그 수익화를 달성하는 3대 필수 승인 조건 완벽 정리</p>
+          </a>
+        </div>
+      </section>
+
+      <footer class="guide-footer">
+        <div class="guide-footer-links">
+          <a href="/">챌린지 대시보드</a>
+          <a href="/about">서비스 소개</a>
+          <a href="/privacy">개인정보처리방침</a>
+          <a href="/terms">이용약관</a>
+        </div>
+        <p>© 2026 po3.site - 네이버 블로그 1일 3포 챌린지 캘린더. All rights reserved.</p>
+      </footer>
+    </div>
+  </body>
+</html>
