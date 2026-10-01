@@ -337,3 +337,7 @@ a:hover {
 .guide-footer-links a:hover {
   color: var(--naver-green);
 }
+
+.article-body table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.9rem; }
+.article-body th, .article-body td { border: 1px solid var(--border-color, rgba(255,255,255,0.1)); padding: 10px 12px; text-align: left; vertical-align: top; }
+.article-body th { background: rgba(255,255,255,0.05); }

@@ -11,6 +11,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="canonical" href="https://po3.site/privacy" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="개인정보처리방침 (Privacy Policy) - po3 1일 3포 챌린지 캘린더" />
+    <meta property="og:description" content="네이버 블로그 1일 3포 챌린지 po3.site의 개인정보처리방침입니다. 쿠키(Cookie) 정책, 구글 애널리틱스 및 광고 네트워크 관련 이용자 권리를 투명하게 안내합니다." />
+    <meta property="og:url" content="https://po3.site/privacy" />
+    <meta property="og:image" content="https://po3.site/mascot.png" />
     
     <!-- Google Analytics 4 (GA4) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-KGVH98VLLE"></script>
@@ -43,50 +48,62 @@
         </p>
 
         <div class="article-body">
-          <h2>1. 수집하는 개인정보 항목 및 수집 방법</h2>
-          <p>
-            본 서비스는 별도의 회원가입 절차 없이 누구나 자유롭게 이용할 수 있는 무료 웹 서비스입니다.
-          </p>
+          <h2>1. 수집하는 항목과 저장 위치</h2>
+          <p>본 서비스는 회원가입 없이 이용할 수 있으며, 이름·전화번호·주민등록번호·이메일 주소·비밀번호는 수집하지 않습니다. 기능별로 실제 저장되는 항목은 다음과 같습니다.</p>
+          <table>
+            <thead><tr><th>구분</th><th>저장 항목</th><th>저장 위치</th></tr></thead>
+            <tbody>
+              <tr><td>챌린지 기록 (기본)</td><td>일별 글 제목, URL, 카테고리, 이미지, 메모, 달성 현황</td><td>이용자 브라우저(localStorage)</td></tr>
+              <tr><td>기기 간 동기화 (선택)</td><td>네이버 블로그 ID, 캘린더 데이터(위 챌린지 기록), 기기 식별 토큰, 4자리 PIN의 SHA-256 해시(PIN 설정 시), 최종 수정 시각</td><td>Cloudflare D1 서버</td></tr>
+              <tr><td>방문 통계</td><td>IP 주소의 해시값(원본 IP는 저장하지 않음), User-Agent, 유입 경로(referrer), 국가·도시, 방문 경로, 방문 일자</td><td>Cloudflare D1 서버</td></tr>
+              <tr><td>피드백 게시판 (선택)</td><td>작성자 표시명(미입력 시 "익명의 블로거"), 제목, 내용, 투표자 토큰</td><td>Cloudflare D1 서버</td></tr>
+              <tr><td>활동 배너 (선택)</td><td>닉네임, 글 제목, 카테고리, 날짜 (챌린지 완료 시 전체 활동 표시용)</td><td>Cloudflare D1 서버</td></tr>
+              <tr><td>기기 설정</td><td>기기 토큰, 투표자 토큰, 연동한 블로그 ID, 방문 통계 캐시, 환영 창 숨김 날짜, 동기화 PIN(동기화 사용 기기에서 자동 동기화를 위해 저장)</td><td>이용자 브라우저(localStorage)</td></tr>
+            </tbody>
+          </table>
+          <p>네이버 블로그 ID로 RSS(공개 피드)를 조회하여 오늘 작성한 글 수를 확인합니다. 이때 조회한 글 내용은 서버에 저장하지 않습니다.</p>
+
+          <h2>2. 수집·이용 목적</h2>
           <ul>
-            <li><strong>기본 이용 시</strong>: 주민등록번호, 실명, 전화번호, 비밀번호 등 어떠한 민감 개인정보도 수집하지 않습니다. 사용자가 입력하는 챌린지 일지, 글 제목, 카테고리 등은 이용자의 로컬 웹 브라우저(localStorage)에만 저장됩니다.</li>
-            <li><strong>클라우드 동기화 기능 이용 시</strong>: 사용자가 명시적으로 입력한 네이버 블로그 ID, 설정한 4자리 동기화 PIN(SHA-256 단방향 암호화 해시 처리), 캘린더 동기화 데이터가 서버(Cloudflare D1)에 보관됩니다.</li>
-            <li><strong>자동 생성 정보</strong>: 서비스 이용 과정에서 IP 주소, 브라우저 종류, 방문 일시, 서비스 이용 기록 등의 통계 데이터가 자동 생성되어 수집될 수 있습니다.</li>
+            <li>챌린지 기록 관리 및 통계 시각화</li>
+            <li>데스크탑·모바일 기기 간 캘린더 동기화</li>
+            <li>방문자 수 집계, 비정상 트래픽 방지, 서비스 안정성 모니터링</li>
+            <li>피드백 게시판 및 활동 배너 운영</li>
+            <li>Google Analytics를 통한 이용 형태 분석 및 서비스 개선</li>
           </ul>
 
-          <h2>2. 개인정보의 수집 및 이용 목적</h2>
+          <h2>3. 쿠키 및 제3자 서비스 (Google Analytics, Google AdSense)</h2>
+          <p>본 서비스는 Google Analytics 4(측정 ID G-KGVH98VLLE)를 사용하며, 사이트 운영 비용 충당을 위해 Google AdSense 등 제3자 광고를 게재할 수 있습니다.</p>
           <ul>
-            <li>네이버 블로그 1일 3포 챌린지 기록 관리 및 통계 시각화 제공</li>
-            <li>데스크탑 및 모바일 기기 간의 실시간 캘린더 동기화 서비스 제공</li>
-            <li>비정상적인 접근 트래픽 방지 및 서비스 안정성 모니터링</li>
-            <li>Google Analytics를 통한 방문자 이용 형태 분석 및 서비스 품질 개선</li>
+            <li><strong>Google을 포함한 제3자 판매자</strong>는 쿠키를 사용하여 이용자의 이전 방문 기록을 바탕으로 광고를 게재합니다.</li>
+            <li><strong>Google의 광고 쿠키 사용</strong>으로 Google 및 파트너사는 본 사이트 또는 다른 사이트 방문 기록에 기반한 광고를 제공할 수 있습니다.</li>
+            <li>이용자는 <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer">구글 광고 설정</a>에서 맞춤 광고를 해제할 수 있으며, <a href="https://www.aboutads.info" target="_blank" rel="noopener noreferrer">aboutads.info</a>에서 제3자 판매자의 맞춤 광고용 쿠키를 해제할 수 있습니다.</li>
+            <li>Google의 데이터 이용 방식은 <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener noreferrer">Google 파트너 사이트 정책</a>에서 확인할 수 있습니다.</li>
+            <li>브라우저 설정에서 쿠키 허용 수준을 선택하거나 저장을 거부할 수 있으며, 이 경우 일부 기능 이용에 제한이 있을 수 있습니다.</li>
           </ul>
 
-          <h2>3. 쿠키(Cookie) 및 제3자 광고(Google AdSense) 관련 규정</h2>
-          <p>
-            본 웹사이트는 이용자 맞춤형 서비스를 제공하고 사이트 운영을 유지하기 위해 '쿠키(Cookie)' 및 제3자 광고 네트워크를 사용할 수 있습니다.
-          </p>
+          <h2>4. 처리 위탁 및 국외 이전</h2>
+          <p>서버 데이터는 Cloudflare, Inc.의 서비스(Workers, D1)에 저장·처리되며, 통계 분석은 Google LLC의 Google Analytics를 이용합니다. 이들 사업자의 서버는 국외에 있을 수 있습니다. 서비스는 위 목적 외에 이용자 정보를 제3자에게 판매하거나 제공하지 않습니다.</p>
+
+          <h2>5. 보유 기간 및 파기</h2>
           <ul>
-            <li><strong>Google을 포함한 제3자 판매자</strong>는 쿠키를 사용하여 사용자의 웹사이트 방문 기록을 바탕으로 광고를 게재합니다.</li>
-            <li><strong>Google의 광고 쿠키 사용</strong>을 통해 Google 및 파트너사는 사용자가 본 사이트 또는 다른 웹사이트를 방문한 기록을 토대로 맞춤형 광고를 제공할 수 있습니다.</li>
-            <li>이용자는 <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer">구글 광고 설정 페이지</a>를 방문하여 맞춤형 광고 게재에 사용되는 쿠키를 비활성화할 수 있습니다.</li>
-            <li>또한 이용자는 웹 브라우저 설정을 통해 쿠키 허용 수준을 직접 선택하거나 모든 쿠키의 저장을 거부할 수 있습니다. 다만, 쿠키 저장을 거부할 경우 일부 서비스 기능 이용에 제한이 있을 수 있습니다.</li>
+            <li><strong>브라우저 저장 데이터</strong>: 이용자가 [전체 초기화]를 실행하거나 브라우저 데이터를 삭제하면 즉시 파기됩니다.</li>
+            <li><strong>동기화 데이터</strong>: 이용자가 삭제를 요청할 때까지 보관하며, 요청 확인 후 지체 없이 파기합니다.</li>
+            <li><strong>방문 통계, 피드백, 활동 배너</strong>: 서비스 운영 기간 동안 보관하며, 삭제 요청 시 해당 항목을 파기합니다.</li>
           </ul>
+          <p>삭제를 원하시면 <a href="mailto:admin@po3.site">admin@po3.site</a>로 블로그 ID(또는 삭제 대상 글)를 알려주세요. 동기화 PIN을 설정한 경우 본인 확인을 위해 추가 정보를 요청할 수 있습니다.</p>
 
-          <h2>4. 개인정보의 보유 및 파기 절차</h2>
-          <p>
-            이용자의 로컬 브라우저에 저장된 데이터는 사용자가 직접 브라우저 캐시를 삭제하거나 초기화 기능을 실행할 때 즉시 파기됩니다. 클라우드에 백업된 데이터 역시 사용자가 동기화 해제 또는 삭제를 요청하는 경우 지체 없이 영구 파기됩니다.
-          </p>
+          <h2>6. 안전성 확보 조치</h2>
+          <p>모든 통신은 HTTPS로 암호화됩니다. PIN은 서버에 SHA-256 해시로만 저장되며, 방문자 IP는 해시 처리 후 저장합니다. 다만 4자리 PIN은 길이가 짧아 강한 보안을 보장하지 않으므로, 민감한 내용은 캘린더 메모에 기록하지 않는 것을 권장합니다.</p>
 
-          <h2>5. 개인정보 보호책임자 및 권익침해 구제</h2>
-          <p>
-            개인정보 처리에 관한 문의, 불만 처리, 피해 구제 등은 아래의 보호책임자에게 문의해 주시면 신속하고 성실하게 답변해 드리겠습니다.
-          </p>
+          <h2>7. 이용자의 권리와 문의</h2>
+          <p>이용자는 자신의 정보에 대한 열람·정정·삭제를 요청할 수 있습니다. 아래 연락처 또는 <a href="/contact">문의 페이지</a>로 문의해 주세요.</p>
           <ul>
-            <li><strong>개인정보 관리 책임자</strong>: po3 서비스 운영팀</li>
-            <li><strong>연락처 / 이메일</strong>: <a href="mailto:admin@po3.site">admin@po3.site</a></li>
+            <li><strong>운영자</strong>: po3 서비스 운영팀</li>
+            <li><strong>이메일</strong>: <a href="mailto:admin@po3.site">admin@po3.site</a></li>
           </ul>
           <p style="margin-top: 24px; color: var(--text-muted); font-size: 0.88rem;">
-            본 방침은 2026년 9월 1일부터 적용됩니다.
+            공고일 및 시행일: 2026년 10월 1일 (이전 방침: 2026년 9월 1일 시행). 방침이 변경되면 이 페이지에 공지합니다.
           </p>
         </div>
       </article>
@@ -97,7 +114,10 @@
           <a href="/about">서비스 소개</a>
           <a href="/privacy">개인정보처리방침</a>
           <a href="/terms">이용약관</a>
+          <a href="/contact">문의하기</a>
+          <a href="mailto:admin@po3.site">admin@po3.site</a>
         </div>
+        <p>본 서비스는 네이버(NAVER Corp.)와 무관한 비공식 서비스입니다. NAVER 및 네이버 블로그는 NAVER Corp.의 상표입니다.</p>
         <p>© 2026 po3.site - 네이버 블로그 1일 3포 챌린지 캘린더. All rights reserved.</p>
       </footer>
     </div>

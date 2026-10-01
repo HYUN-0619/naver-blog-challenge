@@ -1,7 +1,7 @@
 import React from 'react';
 import { ShieldCheck, Info, Mail, Heart, Sparkles, HelpCircle } from 'lucide-react';
 
-export default function Footer({ onOpenPrivacy, onOpenTerms, onOpenWelcome, onOpenAdmin, currentYear }) {
+export default function Footer({ onOpenTerms, onOpenWelcome, onOpenAdmin, currentYear }) {
   return (
     <footer style={{
       marginTop: '60px',
@@ -93,7 +93,14 @@ export default function Footer({ onOpenPrivacy, onOpenTerms, onOpenWelcome, onOp
             }}
           >
             <Mail size={16} />
-            제휴/문의
+            admin@po3.site
+          </a>
+
+          <a
+            href="/contact"
+            style={{ color: 'var(--text-sub)', textDecoration: 'none', fontSize: '0.85rem' }}
+          >
+            문의 페이지
           </a>
         </div>
       </div>
@@ -109,21 +116,25 @@ export default function Footer({ onOpenPrivacy, onOpenTerms, onOpenWelcome, onOp
       }}>
         <div style={{ fontWeight: 700, color: 'var(--text-main)', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
           <Sparkles size={14} style={{ color: 'var(--naver-green)' }} />
-          네이버 블로그 1일 3포 전문 가이드 컬렉션
+          네이버 블로그 1일 3포 가이드 모음
         </div>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px 20px' }}>
-          <a href="/guide/c-rank-dia-algorithm" style={{ color: 'var(--text-sub)' }}>• C-Rank & D.I.A 알고리즘 완벽 분석</a>
+          <a href="/guide/c-rank-dia-algorithm" style={{ color: 'var(--text-sub)' }}>• C-Rank & D.I.A 알고리즘 이해하기</a>
           <a href="/guide/blog-golden-time" style={{ color: 'var(--text-sub)' }}>• 1일 3포 골든타임 시간표 공략</a>
-          <a href="/guide/adpost-approval-guide" style={{ color: 'var(--text-sub)' }}>• 애드포스트 30일 첫 승인 가이드</a>
-          <a href="/guide/keyword-seo-strategy" style={{ color: 'var(--text-sub)' }}>• 스마트블록 상위노출 키워드 전략</a>
-          <a href="/guide/blog-topic-ideas" style={{ color: 'var(--text-sub)' }}>• 글감 고민 끝내는 1일 3포 주제 30선</a>
+          <a href="/guide/adpost-approval-guide" style={{ color: 'var(--text-sub)' }}>• 애드포스트 승인 조건 체크리스트</a>
+          <a href="/guide/keyword-seo-strategy" style={{ color: 'var(--text-sub)' }}>• 스마트블록 키워드 발굴 방법</a>
+          <a href="/guide/blog-topic-ideas" style={{ color: 'var(--text-sub)' }}>• 글감이 막힐 때 참고할 주제 30선</a>
         </div>
       </div>
+
+      <p style={{ textAlign: 'center', color: 'var(--text-sub)', fontSize: '0.82rem', marginBottom: '12px' }}>
+        본 서비스는 네이버(NAVER Corp.)와 무관한 비공식 서비스입니다. NAVER 및 네이버 블로그는 NAVER Corp.의 상표입니다.
+      </p>
 
       {/* Copyright */}
       <div style={{ textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.8rem', borderTop: '1px dashed var(--border-color)', paddingTop: '16px' }}>
         <p>
-          &copy; {currentYear} 네이버 블로그 1일 3포 챌린지 캘린더 • All rights reserved. 본 서비스는 네이버 공식 서비스가 아닌 독립적인 블로그 챌린지 웹 앱입니다.
+          &copy; {currentYear} 네이버 블로그 1일 3포 챌린지 캘린더 • All rights reserved.
           {' '}
           <button
             onClick={onOpenAdmin}

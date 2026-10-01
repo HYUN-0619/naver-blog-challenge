@@ -1,62 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- Main Dashboard -->
   <url>
     <loc>https://po3.site/</loc>
-    <lastmod>2026-09-29</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>1.0</priority>
+    <lastmod>2026-10-01</lastmod>
   </url>
-
-  <!-- Blog Guides -->
   <url>
     <loc>https://po3.site/guide/c-rank-dia-algorithm</loc>
-    <lastmod>2026-09-29</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <lastmod>2026-10-01</lastmod>
   </url>
   <url>
     <loc>https://po3.site/guide/blog-golden-time</loc>
-    <lastmod>2026-09-29</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <lastmod>2026-10-01</lastmod>
   </url>
   <url>
     <loc>https://po3.site/guide/adpost-approval-guide</loc>
-    <lastmod>2026-09-29</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <lastmod>2026-10-01</lastmod>
   </url>
   <url>
     <loc>https://po3.site/guide/keyword-seo-strategy</loc>
-    <lastmod>2026-09-29</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <lastmod>2026-10-01</lastmod>
   </url>
   <url>
     <loc>https://po3.site/guide/blog-topic-ideas</loc>
-    <lastmod>2026-09-29</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <lastmod>2026-10-01</lastmod>
   </url>
-
-  <!-- Service & Legal Pages -->
   <url>
     <loc>https://po3.site/about</loc>
-    <lastmod>2026-09-29</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-10-01</lastmod>
+  </url>
+  <url>
+    <loc>https://po3.site/contact</loc>
+    <lastmod>2026-10-01</lastmod>
   </url>
   <url>
     <loc>https://po3.site/privacy</loc>
-    <lastmod>2026-09-29</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <lastmod>2026-10-01</lastmod>
   </url>
   <url>
     <loc>https://po3.site/terms</loc>
-    <lastmod>2026-09-29</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <lastmod>2026-10-01</lastmod>
   </url>
 </urlset>

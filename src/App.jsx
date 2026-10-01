@@ -14,7 +14,6 @@ import GlobalActivityBanner from './components/GlobalActivityBanner';
 import NaverSyncModal from './components/NaverSyncModal';
 import SyncSettingsModal from './components/SyncSettingsModal';
 import AdminDashboard from './components/AdminDashboard';
-import PrivacyModal from './components/PrivacyModal';
 import TermsModal from './components/TermsModal';
 import WelcomeGuideModal from './components/WelcomeGuideModal';
 import Footer from './components/Footer';
@@ -52,7 +51,6 @@ export default function App() {
   const [showProofModal, setShowProofModal] = useState(false);
   const [showNaverSyncModal, setShowNaverSyncModal] = useState(false);
   const [showSyncModal, setShowSyncModal] = useState(false);
-  const [showPrivacyModal, setShowPrivacyModal] = useState(false);
   const [showTermsModal, setShowTermsModal] = useState(false);
   const [showWelcomeModal, setShowWelcomeModal] = useState(() => {
     const todayStr = new Date().toISOString().split('T')[0];
@@ -442,11 +440,6 @@ export default function App() {
         />
       )}
 
-      {/* Privacy Policy Modal */}
-      {showPrivacyModal && (
-        <PrivacyModal onClose={() => setShowPrivacyModal(false)} />
-      )}
-
       {/* Terms & About Modal */}
       {showTermsModal && (
         <TermsModal onClose={() => setShowTermsModal(false)} />
@@ -460,7 +453,6 @@ export default function App() {
       {/* Footer Branding & Legal Links */}
       <Footer
         currentYear={currentYear}
-        onOpenPrivacy={() => setShowPrivacyModal(true)}
         onOpenTerms={() => setShowTermsModal(true)}
         onOpenWelcome={() => setShowWelcomeModal(true)}
         onOpenAdmin={() => setActiveTab('admin')}
