@@ -34,7 +34,7 @@ export default function Footer({ onOpenTerms, onOpenWelcome, onOpenAdmin, curren
         {/* Right Policy Links */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
           <a
-            href="/about"
+            href="/about/"
             style={{
               color: 'var(--text-main)',
               textDecoration: 'none',
@@ -50,7 +50,7 @@ export default function Footer({ onOpenTerms, onOpenWelcome, onOpenAdmin, curren
           </a>
 
           <a
-            href="/privacy"
+            href="/privacy/"
             style={{
               color: 'var(--text-main)',
               textDecoration: 'none',
@@ -66,7 +66,7 @@ export default function Footer({ onOpenTerms, onOpenWelcome, onOpenAdmin, curren
           </a>
 
           <a
-            href="/terms"
+            href="/terms/"
             style={{
               color: 'var(--text-main)',
               textDecoration: 'none',
@@ -97,7 +97,7 @@ export default function Footer({ onOpenTerms, onOpenWelcome, onOpenAdmin, curren
           </a>
 
           <a
-            href="/contact"
+            href="/contact/"
             style={{ color: 'var(--text-sub)', textDecoration: 'none', fontSize: '0.85rem' }}
           >
             문의 페이지
@@ -119,11 +119,11 @@ export default function Footer({ onOpenTerms, onOpenWelcome, onOpenAdmin, curren
           네이버 블로그 1일 3포 가이드 모음
         </div>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px 20px' }}>
-          <a href="/guide/c-rank-dia-algorithm" style={{ color: 'var(--text-sub)' }}>• C-Rank & D.I.A 알고리즘 이해하기</a>
-          <a href="/guide/blog-golden-time" style={{ color: 'var(--text-sub)' }}>• 1일 3포 골든타임 시간표 공략</a>
-          <a href="/guide/adpost-approval-guide" style={{ color: 'var(--text-sub)' }}>• 애드포스트 승인 조건 체크리스트</a>
-          <a href="/guide/keyword-seo-strategy" style={{ color: 'var(--text-sub)' }}>• 스마트블록 키워드 발굴 방법</a>
-          <a href="/guide/blog-topic-ideas" style={{ color: 'var(--text-sub)' }}>• 글감이 막힐 때 참고할 주제 30선</a>
+          <a href="/guide/c-rank-dia-algorithm/" style={{ color: 'var(--text-sub)' }}>• C-Rank & D.I.A 알고리즘 이해하기</a>
+          <a href="/guide/blog-golden-time/" style={{ color: 'var(--text-sub)' }}>• 1일 3포 골든타임 시간표 공략</a>
+          <a href="/guide/adpost-approval-guide/" style={{ color: 'var(--text-sub)' }}>• 애드포스트 승인 조건 체크리스트</a>
+          <a href="/guide/keyword-seo-strategy/" style={{ color: 'var(--text-sub)' }}>• 스마트블록 키워드 발굴 방법</a>
+          <a href="/guide/blog-topic-ideas/" style={{ color: 'var(--text-sub)' }}>• 글감이 막힐 때 참고할 주제 30선</a>
         </div>
       </div>
 
